@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('lobby');
 });
+
+
+Route::get('room/{room_id}', function () {
+    // 룸 컨트롤러 호출
+    return view('room');
+});
+Route::get('room', function () {
+    return view('room');
+});
+

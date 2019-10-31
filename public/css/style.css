@@ -1,0 +1,22 @@
+
+body {
+    background: #F7F7F9;
+}
+
+#room-container {
+    height:600px;
+    width:100%;
+    background-color: white;
+}
+
+#video-queue {
+    width:200px;
+    height:600px;
+    background-color:red;
+}
+
+#chat-window {
+    width:200px;
+    height:600px;
+    background-color:blue;
+}
