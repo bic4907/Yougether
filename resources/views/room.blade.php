@@ -1,7 +1,6 @@
 @extends('layout.default')
 @section('content')
 <div id="room-container" class="container border border-white rounded">
-
     <div class="row">
         <div class="col">
             <div class="row">
@@ -79,7 +78,7 @@
                 if(this.chat_input == '') return;
 
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: URL_CHAT,
                     data: this.chat_input,
                     success: function(data) {

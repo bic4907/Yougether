@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('lobby');
 });
 
+Route::post('room', function () {
+    // 룸 만들기 컨트롤러 호출, 룸 이름이 들어온다
+})->name('room.create');
 
 Route::get('room/{room_id}', function () {
     // 룸 컨트롤러 호출

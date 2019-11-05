@@ -6,6 +6,14 @@ body {
 
 #app-title { font-family: 'Bangers', cursive; }
 
+#room-cards .room-card {
+    width:500px;
+    display:inline-block;
+    max-width:initial;
+}
+#room-cards .room-card:nth-child(2n) {
+    margin-left:50px !important;
+}
 #room-container {
     height:600px;
     width:100%;
