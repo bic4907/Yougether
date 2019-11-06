@@ -14,13 +14,13 @@
     <div class="container pt-4 mt-5 row">
 
         <div class="col">
-        <h1 id="app-title" class="display-5">Yougether</h1>
+        <h1 id="app-title" class="display-5"><a href="/">Yougether</a></h1>
         <p class="lead">유튜브 동영상 같이보기 플랫폼</p>
         </div>
 
         <div class="col">
             <div id="nick-setting" class="d-inline lead pt-3" style="float:right">
-                <span>@{{ nickname }}</span><span @click="modify"><i class="fas fa-cog ml-2" style="cursor:pointer"></i></span>
+                <span>@{{ nickname }}</span><span @click="showModifyModal"><i class="fas fa-cog ml-2" style="cursor:pointer"></i></span>
             </div>
 
         </div>
@@ -32,7 +32,7 @@
     </div>
 
 </div>
-
+@include('layout.nick-setting')
 <script>
 
     var NICK_URL = '{{ route('checkingSession') }}';
@@ -44,35 +44,53 @@
             flag_loading: true,
         },
         mounted: function() {
-            var self = this
-            self.flag_loading = true
-            $.ajax({
-                type: "GET",
-                url: NICK_URL,
-                success: function(data) {
-                    if(data == '') {
-                        self.nickname = '미설정'
-                    } else {
-                        self.nickname = data
-                    }
-                    self.flag_loading = false
-                },
-                error: function(data) {
-
-                }
-            });
+            this.refresh()
         },
         methods: {
             refresh: function() {
+                var self = this
+                self.flag_loading = true
+                $.ajax({
+                    type: "GET",
+                    url: NICK_URL,
+                    success: function(data) {
+                        if(data == '') {
+                            self.nickname = '미설정'
+                            self.showModifyModal()
+                        } else {
+                            self.nickname = data
+                        }
+                        self.flag_loading = false
+                    },
+                    error: function(data) {
 
+                    }
+                });
             },
             modify: function() {
-                if(this.flag_loading) {
-                    $.amaran({content:{'message':'닉네임을 불러오고 있습니다'}});
-                } else {
-                    $.amaran({content:{'message':'닉네임 로딩 완료'}});
-                }
-                console.log('modify 클릭됨')
+                var self = this
+                var nickname = $('#nick-setting-modal #nicksetting__nickname').val()
+                $.ajax({
+                    type: "POST",
+                    url: NICK_URL,
+                    data: { nickname: nickname },
+                    success: function(data) {
+                        self.refresh()
+                        $('#nick-setting-modal').modal('hide')
+                    },
+                    error: function(data) {
+                        $.amaran({content:{'message':'닉네임 수정 실패'}});
+                    }
+                });
+            },
+            showModifyModal: function() {
+                var self = this
+                $('#nick-setting-modal #nicksetting__nickname').val(self.nickname)
+                $('#nick-setting-modal #nicksetting__submit').click(function() {
+                    console.log(111);
+                    self.modify()
+                })
+                $('#nick-setting-modal').modal('show')
 
             }
         }

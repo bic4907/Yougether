@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
-    public function checkingSession(Request $request){
-        if(!$request->session()->get('nickname')){
+    public function checkingSession(Request $request) {
+
+        if(!$request->session()->get('nickname')) {
             $request->session()->put('nickname', $request->nickname);
 
             return null;
