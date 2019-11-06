@@ -17,7 +17,7 @@ class LoginController extends Controller
             return null;
         }
         else{
-            if(User::where('nickname', $request->session()->get('nickname'))->find()){
+            if(User::find($request->session()->get('nickname'))){
                 return null;
             }
             return $request->session()->get('nickname');
