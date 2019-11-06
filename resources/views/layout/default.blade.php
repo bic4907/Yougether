@@ -35,16 +35,42 @@
 
 <script>
 
+    var NICK_URL = '{{ route('checkingSession') }}';
+
     var app = new Vue({
         el: '#nick-setting',
         data: {
             nickname: '로딩중',
             flag_loading: true,
         },
+        mounted: function() {
+            var self = this
+            self.flag_loading = true
+            $.ajax({
+                type: "GET",
+                url: NICK_URL,
+                success: function(data) {
+                    if(data == '') {
+                        self.nickname = '미설정'
+                    } else {
+                        self.nickname = data
+                    }
+                    self.flag_loading = false
+                },
+                error: function(data) {
+
+                }
+            });
+        },
         methods: {
+            refresh: function() {
+
+            },
             modify: function() {
                 if(this.flag_loading) {
                     $.amaran({content:{'message':'닉네임을 불러오고 있습니다'}});
+                } else {
+                    $.amaran({content:{'message':'닉네임 로딩 완료'}});
                 }
                 console.log('modify 클릭됨')
 
