@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('lobby');
 });
 
+Route::get('/user', 'User\LoginController@checkingSession')->name('checkingSession');
+
 Route::post('room', function () {
     // 룸 만들기 컨트롤러 호출, 룸 이름이 들어온다
 })->name('room.create');
