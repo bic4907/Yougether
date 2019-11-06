@@ -14,4 +14,5 @@ class Chat extends Model
     {
         return $this->hasMany('App/User');
     }
+
 }

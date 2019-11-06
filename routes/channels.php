@@ -11,6 +11,6 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('chat', function ($user, $user_id, $room_id) {
+    return (int) $user->id === (int) $user_id && (int) $user->romm_id === (int) $room_id;
 });
