@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\Cookie;
 class LoginController extends Controller
 {
     public function checkingSession(Request $request){
-        if(!$request->session()->get('key')){
+        if(!$request->session()->get('nickname')){
             $request->session()->put('nickname', $request->nickname);
 
-            return null;
+            $this->checkingRegistered($request);
+
+            echo $request->cookie('yougether_session');
         }
         else{
-            return $request->cookie('yougether_session');
+            echo $request->session()->get('nickname');
         }
     }
 
@@ -28,7 +30,7 @@ class LoginController extends Controller
         $todo_user->save();
     }
 
-    public function checkingRegitered(Request $request)
+    public function checkingRegistered($request)
     {
         $user = User::where('nickname', $request->nickname)->get();
         if(!sizeof($user)){
