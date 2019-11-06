@@ -61,7 +61,7 @@
 </div>
 <script>
 
-    var URL_CHAT = '{{ route('room.chat.send', ['room_id'=>null ]) }}';
+    var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> '1']) }}'; //room_id 변경해야함
 
     var app = new Vue({
         el: '#room-container',
@@ -76,11 +76,16 @@
         methods: {
             chatSubmit: function() {
                 if(this.chat_input == '') return;
+                var _user_id = 1; //user_id 변경해야함
+                var _text = this.chat_input;
 
                 $.ajax({
                     type: "POST",
                     url: URL_CHAT,
-                    data: this.chat_input,
+                    data: {
+                        user_id : _user_id,
+                        text : _text
+                    },
                     success: function(data) {
                         console.log('채팅 전송됨', data)
                     },

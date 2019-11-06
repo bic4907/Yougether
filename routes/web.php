@@ -25,10 +25,8 @@ Route::get('room/{room_id}', function () {
     // 룸 컨트롤러 호출
     return view('room');
 });
-Route::post('room/{room_id}/chat', function () {
-    // 룸 컨트롤러 호출
+Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
 
-})->name('room.chat.send');
 Route::get('room', function () {
     return view('room');
 });
