@@ -17,18 +17,24 @@ class LoginController extends Controller
             return null;
         }
         else{
+            if(User::where('nickname', $request->session()->get('nickname'))->find()){
+                return null;
+            }
             return $request->session()->get('nickname');
         }
     }
 
     public function settingSession(Request $request){
+        $request->session()->put('nickname', $request->nickname);
+
         if(!$request->session()->get('nickname')){
-            $request->session()->put('nickname', $request->nickname);
-
             $this->checkingRegistered($request);
-
-            return $request->cookie('yougether_session');
         }
+        else{
+            $this->updatingNickname($request);
+        }
+
+        return $request->cookie('yougether_session');
     }
 
     public function signUp($user){
@@ -36,6 +42,10 @@ class LoginController extends Controller
         $todo_user->nickname = $user->nickname;
 
         $todo_user->save();
+    }
+
+    public function updatingNickname($request){
+        User::where('nickname', $request->nickname)->update(['nickname' => $request->nickname]);
     }
 
     public function checkingRegistered($request)
