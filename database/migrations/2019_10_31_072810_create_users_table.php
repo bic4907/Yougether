@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('nickname')->unique();
             $table->unsignedInteger('room_id')->nullable();
             $table->foreign('room_id')->references('id')->on('rooms');
+            $table->string('coo');
             $table->rememberToken();
             $table->timestamps();
         });
