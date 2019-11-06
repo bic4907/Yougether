@@ -14,12 +14,20 @@ class LoginController extends Controller
         if(!$request->session()->get('nickname')){
             $request->session()->put('nickname', $request->nickname);
 
-            $this->checkingRegistered($request);
-
-            echo $request->cookie('yougether_session');
+            return null;
         }
         else{
-            echo $request->session()->get('nickname');
+            return $request->session()->get('nickname');
+        }
+    }
+
+    public function settingSession(Request $request){
+        if(!$request->session()->get('nickname')){
+            $request->session()->put('nickname', $request->nickname);
+
+            $this->checkingRegistered($request);
+
+            return $request->cookie('yougether_session');
         }
     }
 
