@@ -38,13 +38,13 @@ class MessageSentEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel(
-            'chat'
+        return new PresenceChannel(
+            'chat'.$this->room_id
         );
     }
 
     public function broadcastWith()
     {
-        return ['nickname' => $this->nickname, 'text'=>$this->text, 'room_id'=>$this->room_id];
+        return ['nickname' => $this->nickname, 'text'=>$this->text];
     }
 }

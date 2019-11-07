@@ -72,7 +72,7 @@
             player.stopVideo();
         }
     */
-    var ROOM_ID = '2'
+    var ROOM_ID = '1'
     var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> '1']) }}'; //room_id 변경해야함
 
     var roomApp = new Vue({
@@ -89,10 +89,12 @@
         mounted: function() {
             var self = this
             if (typeof Echo != "undefined") {
-                var echo = Echo.private('room.' + ROOM_ID)
+                var echo = Echo.join('chat' + ROOM_ID)
                     .listen('MessageSentEvent', function(e) {
+                        console.log(e)
                         self.chat_logs.push({'name':'hi', 'content':'hi'})
                     })
+
             }
 
         },

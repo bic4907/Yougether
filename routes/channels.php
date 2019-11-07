@@ -11,6 +11,10 @@
 |
 */
 
-Broadcast::channel('chat', function ($user, $user_id, $room_id) {
-    return (int) $user->id === (int) $user_id && (int) $user->romm_id === (int) $room_id;
-});
+Broadcast::routes();
+/*
+Broadcast::channel('chat.{roomId}', function ($roomId) {
+    return true;
+    //return (int) $user->id === (int) $user_id && (int) $user->romm_id === (int) $room_id;
+}, ['guards'=>['web', 'admin']]);
+*/
