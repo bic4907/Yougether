@@ -20,7 +20,7 @@
 
         <div class="col">
             <div id="nick-setting" class="d-inline lead pt-3" style="float:right">
-                <span>@{{ nickname }}</span><span @click="showModifyModal"><i class="fas fa-cog ml-2" style="cursor:pointer"></i></span>
+                <span>@{{ nickname ? nickname : '미설정' }}</span><span @click="showModifyModal"><i class="fas fa-cog ml-2" style="cursor:pointer"></i></span>
             </div>
 
         </div>
@@ -44,7 +44,11 @@
             flag_loading: true,
         },
         mounted: function() {
+            var self = this
             this.refresh()
+            $('#nick-setting-modal #nicksetting__submit').click(function() {
+                self.modify()
+            })
         },
         methods: {
             refresh: function() {
@@ -55,7 +59,7 @@
                     url: NICK_URL,
                     success: function(data) {
                         if(data == '') {
-                            self.nickname = '미설정'
+                            self.nickname = ''
                             self.showModifyModal()
                         } else {
                             self.nickname = data
@@ -68,6 +72,7 @@
                 });
             },
             modify: function() {
+                console.log('modify');
                 var self = this
                 var nickname = $('#nick-setting-modal #nicksetting__nickname').val()
                 $.ajax({
@@ -79,17 +84,13 @@
                         $('#nick-setting-modal').modal('hide')
                     },
                     error: function(data) {
-                        $.amaran({content:{'message':'닉네임 수정 실패'}});
+                        $.amaran({content:{'message':'닉네임 변경 실패'}});
                     }
                 });
             },
             showModifyModal: function() {
                 var self = this
                 $('#nick-setting-modal #nicksetting__nickname').val(self.nickname)
-                $('#nick-setting-modal #nicksetting__submit').click(function() {
-                    console.log(111);
-                    self.modify()
-                })
                 $('#nick-setting-modal').modal('show')
 
             }
