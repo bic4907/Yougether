@@ -61,6 +61,18 @@
 </div>
 <script>
 
+    var done = false;
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+            setTimeout(stopVideo, 6000);
+            done = true;
+        }
+    }
+    function stopVideo() {
+        player.stopVideo();
+    }
+
+
     var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> '1']) }}'; //room_id 변경해야함
 
     var app = new Vue({
@@ -72,6 +84,10 @@
                 {name:'이름', content: '채팅1'},
                 {name:'이름', content: '채팅2'}
             ],
+            player: null
+        },
+        mounted: function() {
+
         },
         methods: {
             chatSubmit: function() {
@@ -97,6 +113,17 @@
                 // 채팅전송 완료
                 this.chat_input = '';
 
+            },
+            onPlayerReady: function(event) {
+                consoe.log('onPlayerReady')
+                this.player.loadVideoById({
+                    videoId:'l502xg11uNM',
+                    startSeconds:5,
+                    endSeconds:10,
+                    suggestedQuality:'hd720'
+                })
+                this.player.playVideo()
+
             }
         }
     })
@@ -111,36 +138,24 @@
 
     // 3. This function creates an <iframe> (and YouTube player)
     //    after the API code downloads.
-    var player;
+
     function onYouTubeIframeAPIReady() {
-        player = new YT.Player('yt-player', {
+        console.log('API ready')
+        app.player = new YT.Player('yt-player', {
             width: '100%',
             height: '430px;',
-            videoId: '',
+            videoId: null,
             events: {
                 'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
+                'onStateChange': app.onPlayerStatusChange
             }
         });
     }
 
-    // 4. The API will call this function when the video player is ready.
     function onPlayerReady(event) {
-        event.target.playVideo();
+        console.log(app)
+        app.onPlayerReady(event)
     }
 
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(stopVideo, 6000);
-            done = true;
-        }
-    }
-    function stopVideo() {
-        player.stopVideo();
-    }
 </script>
 @endsection
