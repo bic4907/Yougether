@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Cookie;
 class LoginController extends Controller
 {
     public function checkingSession(Request $request) {
-
         if(!$request->session()->get('nickname')) {
             $request->session()->put('nickname', $request->nickname);
 
             return null;
         }
         else{
-            if(User::where('nickname', $request->session()->get('nickname'))->first()){
+            if(!User::where('nickname', $request->session()->get('nickname'))->first()){
                 return null;
             }
             return $request->session()->get('nickname');
@@ -26,27 +25,29 @@ class LoginController extends Controller
     }
 
     public function settingSession(Request $request){
-        $request->session()->put('nickname', $request->nickname);
-
         if(!$request->session()->get('nickname')){
+            $request->session()->put('nickname', $request->nickname);
             $this->checkingRegistered($request);
+            return $request->cookie('yougether_session');
+
         }
         else{
-            $this->updatingNickname($request);
+            $old_name = $request->session()->get('nickname');
+            $request->session()->put('nickname', $request->nickname);
+            $this->updatingNickname($old_name, $request);
         }
-
-        return $request->cookie('yougether_session');
     }
 
     public function signUp($user){
+
         $todo_user = new User();
         $todo_user->nickname = $user->nickname;
 
         $todo_user->save();
     }
 
-    public function updatingNickname($request){
-        User::where('nickname', $request->nickname)->update(['nickname' => $request->nickname]);
+    public function updatingNickname($old_name, $request){
+        User::where('nickname', $old_name)->update(['nickname' => $request->nickname]);
     }
 
     public function checkingRegistered($request)
