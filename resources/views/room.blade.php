@@ -60,22 +60,22 @@
 
 </div>
 <script>
-
-    var done = false;
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(stopVideo, 6000);
-            done = true;
+    /*
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                setTimeout(stopVideo, 6000);
+                done = true;
+            }
         }
-    }
-    function stopVideo() {
-        player.stopVideo();
-    }
-
-
+        function stopVideo() {
+            player.stopVideo();
+        }
+    */
+    var ROOM_ID = '2'
     var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> '1']) }}'; //room_id 변경해야함
 
-    var app = new Vue({
+    var roomApp = new Vue({
         el: '#room-container',
         data: {
             room_title: '안녕하세요 Vue!',
@@ -87,6 +87,13 @@
             player: null
         },
         mounted: function() {
+            var self = this
+            if (typeof Echo != "undefined") {
+                var echo = Echo.private('room.' + ROOM_ID)
+                    .listen('MessageSentEvent', function(e) {
+                        self.chat_logs.push({'name':'hi', 'content':'hi'})
+                    })
+            }
 
         },
         methods: {
@@ -115,14 +122,11 @@
 
             },
             onPlayerReady: function(event) {
-                consoe.log('onPlayerReady')
                 this.player.loadVideoById({
-                    videoId:'l502xg11uNM',
-                    startSeconds:5,
-                    endSeconds:10,
-                    suggestedQuality:'hd720'
+//                    videoId:'l502xg11uNM',
+                    suggestedQuality:'auto'
                 })
-                this.player.playVideo()
+                //this.player.playVideo()
 
             }
         }
@@ -141,21 +145,17 @@
 
     function onYouTubeIframeAPIReady() {
         console.log('API ready')
-        app.player = new YT.Player('yt-player', {
+        roomApp.player = new YT.Player('yt-player', {
             width: '100%',
             height: '430px;',
-            videoId: null,
+            videoId: 'l502xg11uNM',
             events: {
-                'onReady': onPlayerReady,
-                'onStateChange': app.onPlayerStatusChange
+                'onReady': roomApp.onPlayerReady,
+                //'onStateChange': app.onPlayerStatusChange
             }
         });
     }
 
-    function onPlayerReady(event) {
-        console.log(app)
-        app.onPlayerReady(event)
-    }
 
 </script>
 @endsection
