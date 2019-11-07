@@ -18,7 +18,6 @@ Route::get('/', function () {
 Route::get('/user', 'User\LoginController@checkingSession')->name('checkingSession');
 Route::post('/user', 'User\LoginController@settingSession')->name('settingSession');
 
-
 Route::post('room', function () {
     // 룸 만들기 컨트롤러 호출, 룸 이름이 들어온다
 })->name('room.create');
