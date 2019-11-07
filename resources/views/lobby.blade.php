@@ -4,6 +4,13 @@
 
 @section('content')
 
+    @include('room-create')
+
+    <div style="float:right;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createroom-modal">
+            방 만들기
+        </button>
+    </div>
     <div id="room-cards"class="container py-5 my-1">
 
         @for ($i = 0; $i < 10; $i++)
