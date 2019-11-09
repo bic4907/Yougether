@@ -1,5 +1,7 @@
 @extends('layout.default')
 @section('content')
+
+
 <div id="room-container" class="container border border-white rounded">
     <div class="row">
         <div class="col">
@@ -89,12 +91,12 @@
         mounted: function() {
             var self = this
             if (typeof Echo != "undefined") {
-                var echo = Echo.join('chat' + ROOM_ID)
+                var echo = Echo.private('chat.' + ROOM_ID)
                     .listen('MessageSentEvent', function(e) {
                         console.log(e)
-                        self.chat_logs.push({'name':'hi', 'content':'hi'})
+                        self.chat_logs.push({'name':e.nickname, 'content':e.text})
                     })
-
+                console.log(echo)
             }
 
         },

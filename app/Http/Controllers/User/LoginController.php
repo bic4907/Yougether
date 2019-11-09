@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -32,16 +33,16 @@ class LoginController extends Controller
 
     public function settingSession(Request $request) {
 
-        if(!$request->session()->get('nickname')){
+        if(!Auth::user()){
             $request->session()->put('nickname', $request->nickname);
-            dd($request);
+
             $this->checkingRegistered($request);
             return $request->cookie('yougether_session');
 
         }
         else{
-            $old_name = $request->session()->get('nickname');
-            $request->session()->put('nickname', $request->nickname);
+            $old_name = Auth::user()->nickname;
+
             $this->updatingNickname($old_name, $request);
         }
     }

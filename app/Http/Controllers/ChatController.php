@@ -12,12 +12,9 @@ class ChatController extends Controller
 {
     function send($room_id, Request $request)
     {
-        dd(Auth::user());
         $text = $request->post('text');
 
-        $user_id = $request->session()->get('nickname');
-
-        $user = User::where('nickname', '=', $user_id)->first();
+        $user = Auth::user();
         if($user == null) abort(403);
 
         $chat = new Chat();
