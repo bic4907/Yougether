@@ -42,6 +42,8 @@ return [
         ],
 
         'redis' => [
+            'client' => env('REDIS_CLIENT', 'phpredis'),
+
             'driver' => 'redis',
             'connection' => 'default',
         ],
