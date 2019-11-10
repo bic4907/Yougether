@@ -9,15 +9,15 @@ use App\Http\Controllers\Controller;
 
 class AddController extends Controller
 {
-    public function addVideo(Request $request)
+    public function addVideo($room_id, Request $request)
     {
         $video = new Video();
         $video->user_id = $request->user_id;
         $video->video = $request->video;
         $video->isPlayed = false;
-        $video->room_id = $request->room_id;
+        $video->room_id = $room_id;
         $video->save();
 
-        broadcast(new VideoAddEvent());
+        broadcast(new VideoAddEvent($video->user_id, $video->video, $room_id));
     }
 }

@@ -25,9 +25,4 @@ class ChatController extends Controller
 
         broadcast(new MessageSentEvent($room_id, $user->nickname, $text));
     }
-
-    function receive(Request $request)
-    {
-
-    }
 }

@@ -13,3 +13,7 @@
 Broadcast::channel('chat.{room_id}', function ($id, $room_id) {
     return true;
 });
+
+Broadcast::channel('video.{room_id}', function ($id, $room_id) {
+    return true;
+});
