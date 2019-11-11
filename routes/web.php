@@ -18,12 +18,12 @@ Route::get('/', function () {
 Route::get('/user', 'User\LoginController@checkingSession')->name('checkingSession');
 Route::post('/user', 'User\LoginController@settingSession')->name('settingSession');
 
-Route::post('room', 'Room\CreateController@')->name('room.create');
+Route::post('/room', 'Room\CreateController@makingRoom')->name('room.create');
 
 Route::get('room/{room_id}', function () {
     // 룸 컨트롤러 호출
     return view('room');
-});
+})->name('room.enter');
 Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
 
 Route::get('room', function () {

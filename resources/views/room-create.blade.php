@@ -22,14 +22,11 @@
     </div>
 </div>
 <script>
-    var CREATEROOM_POST_URL = '';
+    var CREATEROOM_POST_URL = '/room';
     var flag_creating = false;
-
     $('#createroom-modal #createroom__submit').click(function() {
         var roomName = $('#createroom-modal #createroom__roomname').val()
-
         if(flag_creating) $.amaran({content:{'message':'방을 만들고 있습니다'}});
-
         $.ajax({
             url: CREATEROOM_POST_URL,
             method: 'post',
@@ -44,7 +41,6 @@
                 // 서버로 부터 만들어진 방 모델의 번호를 반환받음
                 $.amaran({content:{'message':'방으로 입장합니다'}});
                 console.log(data)
-
                 $('#createroom-modal').modal('hide')
             },
             error: function() {

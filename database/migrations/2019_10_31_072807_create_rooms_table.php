@@ -17,6 +17,7 @@ class CreateRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('current_info')->nullable();
+            $table->integer('current_time')->nullable();
             $table->timestamps();
         });
     }
