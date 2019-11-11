@@ -22,7 +22,7 @@
     </div>
 </div>
 <script>
-    var CREATEROOM_POST_URL = '';
+    var CREATEROOM_POST_URL = '/room';
     var flag_creating = false;
 
     $('#createroom-modal #createroom__submit').click(function() {
