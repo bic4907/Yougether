@@ -19,7 +19,7 @@
                 <div class="col">
                     <label class="ml-3">공유하기</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" value="룸 URL" readonly>
+                        <input type="text" class="form-control" value="{{ route('room.enter', ['room_id'=>$room->id]) }}" readonly>
 
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button" id="button-copyurl">URL 복사</button>
@@ -80,13 +80,18 @@
     var roomApp = new Vue({
         el: '#room-container',
         data: {
-            room_title: '안녕하세요 Vue!',
+            room_title: '{{ $room->title }}',
             chat_input: '',
             chat_logs: [
                 {name:'이름', content: '채팅1'},
                 {name:'이름', content: '채팅2'}
             ],
-            player: null
+            player: null,
+
+            is_host: false,
+            current_videoId: '{{ $room->current_videoId }}',
+            current_time: '{{ $room->current_time }}'
+
         },
         mounted: function() {
             var self = this
@@ -126,11 +131,16 @@
 
             },
             onPlayerReady: function(event) {
-                this.player.loadVideoById({
-//                    videoId:'l502xg11uNM',
-                    suggestedQuality:'auto'
-                })
-                //this.player.playVideo()
+                var self = this
+                if(self.current_videoId != '') {
+                    self.player.loadVideoById({
+                        videoId: self.current_videoId,
+                        startSeconds: self.current_time,
+                        suggestedQuality: 'auto'
+                    })
+                    this.player.playVideo()
+                }
+
 
             }
         }
@@ -152,7 +162,6 @@
         roomApp.player = new YT.Player('yt-player', {
             width: '100%',
             height: '430px;',
-            videoId: 'l502xg11uNM',
             events: {
                 'onReady': roomApp.onPlayerReady,
                 //'onStateChange': app.onPlayerStatusChange
