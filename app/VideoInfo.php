@@ -9,4 +9,5 @@ class VideoInfo
     public $desc;
     public $duration;
     public $tags;
+    public $thumbnail;
 }
