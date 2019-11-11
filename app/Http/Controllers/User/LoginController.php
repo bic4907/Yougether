@@ -22,8 +22,7 @@ class LoginController extends Controller
 
     public function settingSession(Request $request) {
         if(!Auth::user()){
-
-            $this->signUp($request->nickname);
+            $this->checkingRegistered($request->nickname);
             return $request->cookie('yougether_session');
         }
         else{
@@ -43,11 +42,11 @@ class LoginController extends Controller
         User::where('nickname', Auth::user()->nickname)->update(['nickname' => $nickname]);
     }
 
-    public function checkingRegistered($request)
+    public function checkingRegistered($nickname)
     {
-        $user = User::where('nickname', $request->nickname)->get();
+        $user = User::where('nickname', $nickname)->get();
         if(!sizeof($user)){
-            $this->signUp($request);
+            $this->signUp($nickname);
         }else{
             throw new Exception("Value must be 1 or below");
         }
