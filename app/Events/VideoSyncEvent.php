@@ -3,32 +3,33 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-class MessageSentEvent implements ShouldBroadcast
+class VideoSyncEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $room_id;
-    public $nickname;
-    public $text;
+    public $videoId;
+    public $videoStatus;
+    public $videoTime;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($room_id, $nickname, $text)
+    public function __construct($room_id, $videoId, $videoStatus, $videoTime)
     {
-        //
         $this->room_id = $room_id;
-        $this->nickname = $nickname;
-        $this->text = $text;
+        $this->videoId = $videoId;
+        $this->videoStatus = $videoStatus;
+        $this->videoTime = $videoTime;
     }
 
     /**
@@ -43,6 +44,7 @@ class MessageSentEvent implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return ['nickname' => $this->nickname, 'text'=>$this->text];
+        return ['videoId' => $this->videoId, 'videoStatus'=>$this->videoStatus, 'videoTime'=>$this->videoTime];
     }
+
 }

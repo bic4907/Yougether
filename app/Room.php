@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     protected $fillable = [
-        'title', 'video_id', 'current_info',
+        'title', 'current_host', 'current_videoId', 'current_time',
     ];
 
     public function videos()

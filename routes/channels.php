@@ -10,10 +10,6 @@
 | used to check if an authenticated user can listen to the channel.
 |
 */
-Broadcast::channel('chat.{room_id}', function ($id, $room_id) {
-    return true;
-});
-
-Broadcast::channel('video.{room_id}', function ($id, $room_id) {
+Broadcast::channel('room.{room_id}', function ($id, $room_id) {
     return true;
 });

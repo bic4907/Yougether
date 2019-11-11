@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Enums\VideoStatus;
 
 class CreateRoomsTable extends Migration
 {
@@ -18,7 +19,9 @@ class CreateRoomsTable extends Migration
             $table->string('title');
             $table->string('current_host')->references('nickname')->on('users')->nullable();
             $table->string('current_videoId')->nullable();
+            $table->enum('current_videoStatus', [VideoStatus::Stopped, VideoStatus::Playing])->nullable();
             $table->integer('current_time')->nullable();
+            $table->integer('current_duration')->nullable();
             $table->timestamps();
         });
     }

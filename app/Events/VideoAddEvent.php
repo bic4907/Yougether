@@ -36,7 +36,7 @@ class VideoAddEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('video'.$this->room_id);
+        return new PrivateChannel('room.'.$this->room_id);
     }
 
     public function broadcastwith()

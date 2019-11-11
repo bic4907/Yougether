@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Room;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Room;
+use Illuminate\Support\Facades\Auth;
 
 class ShowController extends Controller
 {
@@ -12,6 +13,10 @@ class ShowController extends Controller
     {
         $room = Room::findOrFail($room_id);
 
-        return view('room', ['room'=>$room]);
+        $isHost = false;
+        if(Auth::user()) {
+            $isHost = $room->current_host == Auth::user()->nickname;
+        }
+        return view('room', ['room'=>$room, 'isHost'=>$isHost]);
     }
 }

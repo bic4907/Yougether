@@ -74,8 +74,9 @@
             player.stopVideo();
         }
     */
-    var ROOM_ID = '1'
-    var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> '1']) }}'; //room_id 변경해야함
+    var ROOM_ID = '{{ $room->id }}'
+    var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> $room->id]) }}'
+    var URL_SYNC = '{{ route('room.chat.sync', ['room_id'=> $room->id]) }}'
 
     var roomApp = new Vue({
         el: '#room-container',
@@ -83,25 +84,31 @@
             room_title: '{{ $room->title }}',
             chat_input: '',
             chat_logs: [
-                {name:'이름', content: '채팅1'},
-                {name:'이름', content: '채팅2'}
             ],
             player: null,
 
-            is_host: false,
+            is_host: {{ $isHost ? 'true' :' false' }},
             current_videoId: '{{ $room->current_videoId }}',
-            current_time: '{{ $room->current_time }}'
+            current_time: '{{ $room->current_time }}',
 
+            videoSyncTimer: null,
         },
         mounted: function() {
             var self = this
             if (typeof Echo != "undefined") {
-                var echo = Echo.private('chat.' + ROOM_ID)
+                var echo = Echo.private('room.' + ROOM_ID)
                     .listen('MessageSentEvent', function(e) {
-                        console.log(e)
                         self.chat_logs.push({'name':e.nickname, 'content':e.text})
                     })
-                console.log(echo)
+                    .listen('VideoSyncEvent', function(e) {
+                        if(!self.is_host) {
+                            self.player.seekTo(e.videoTime)
+                        }
+                    })
+            }
+
+            if(this.is_host) {
+                this.startVideoSyncHost()
             }
 
         },
@@ -112,23 +119,35 @@
                 var _text = this.chat_input;
 
                 $.ajax({
-                    type: "POST",
+                    method: "POST",
                     url: URL_CHAT,
                     data: {
                         user_id : _user_id,
                         text : _text
-                    },
-                    success: function(data) {
-                        console.log('채팅 전송됨', data)
-                    },
-                    error: function(data) {
-
                     }
                 });
 
                 // 채팅전송 완료
                 this.chat_input = '';
 
+            },
+            startVideoSyncHost: function() {
+                var self = this
+                this.videoSyncTimer = setInterval(self.sendVideoSyncInfo, 1000)
+            },
+            stopVideoSyncHost: function() {
+                clearInterval(this.videoSyncTimer)
+            },
+            sendVideoSyncInfo: function() {
+                var self = this
+
+                self.current_time = self.player.getCurrentTime()
+
+                $.ajax({
+                    method: "POST",
+                    url: URL_SYNC,
+                    data: { videoId : self.current_videoId, videoTime: self.current_time }
+                });
             },
             onPlayerReady: function(event) {
                 var self = this
@@ -140,9 +159,9 @@
                     })
                     this.player.playVideo()
                 }
+            },
 
 
-            }
         }
     })
 
@@ -158,7 +177,6 @@
     //    after the API code downloads.
 
     function onYouTubeIframeAPIReady() {
-        console.log('API ready')
         roomApp.player = new YT.Player('yt-player', {
             width: '100%',
             height: '430px;',
