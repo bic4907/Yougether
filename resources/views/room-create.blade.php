@@ -40,7 +40,7 @@
             success: function(data) {
                 // 서버로 부터 만들어진 방 모델의 번호를 반환받음
                 $.amaran({content:{'message':'방으로 입장합니다'}});
-                console.log(data)
+                location.href = data
                 $('#createroom-modal').modal('hide')
             },
             error: function() {
