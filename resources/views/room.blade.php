@@ -33,7 +33,17 @@
             <div class="row no-gutters">
                 <div class="col">
                     <div id="video-queue" class="border" style="margin-right: -1px;">
-
+                        <ul class="video-items">
+                            <li v-for="video in video_queue" class="item">
+                                <span style="font-weight: bold">@{{ video.title }}</span>
+                                <span>
+                                    @{{ video.uploaded_by }}
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="video-control">
+                            <i class="add far fa-plus-square" onclick="addVideoApp.showModal()"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="col">
@@ -62,18 +72,7 @@
 
 </div>
 <script>
-    /*
-        var done = false;
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING && !done) {
-                setTimeout(stopVideo, 6000);
-                done = true;
-            }
-        }
-        function stopVideo() {
-            player.stopVideo();
-        }
-    */
+
     var ROOM_ID = '{{ $room->id }}'
     var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> $room->id]) }}'
     var URL_SYNC = '{{ route('room.chat.sync', ['room_id'=> $room->id]) }}'
@@ -141,6 +140,8 @@
             sendVideoSyncInfo: function() {
                 var self = this
 
+                if(self.current_videoId == null || self.current_videoId == '') return;
+
                 self.current_time = self.player.getCurrentTime()
 
                 $.ajax({
@@ -160,8 +161,10 @@
                     this.player.playVideo()
                 }
             },
-
-
+            appendQueue: function(videoId) {
+                $.amaran({content:{'message':'동영상을 추가 중 입니다'}});
+                console.log(videoId)
+            }
         }
     })
 
@@ -186,7 +189,8 @@
             }
         });
     }
-
-
 </script>
+
+@include('add-video-modal')
+
 @endsection

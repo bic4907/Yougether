@@ -7,8 +7,12 @@
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="//cdn.jsdelivr.net/jquery.amaran/0.5.4/jquery.amaran.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+        <script src="/js/jquery.mCustomScrollbar.min.js"></script>
+
         <script src="/js/app.js"></script>
+
         <link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.amaran/0.5.4/amaran.min.css">
+        <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.css">
 
         <script type="text/javascript">
             $.ajaxSetup({

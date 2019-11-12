@@ -30,7 +30,8 @@ body {
     height:600px;
     background-color:white;
 }
-#chat-window .chat-items {
+#chat-window .chat-items,
+#video-queue .video-items {
     height: 550px;
     padding: 0;
     margin: 0;
@@ -48,4 +49,60 @@ body {
     margin-top:-2px;
     padding:3px;
     font-size:14px;
+}
+
+#video-queue .video-control .add { cursor:pointer }
+
+#add-video-modal {
+
+    margin-top:100px;
+}
+#add-video-modal .modal-dialog {
+    min-width:1000px;
+}
+#add-video-modal .modal-body {
+    height:500px;
+
+}
+#add-video-modal .search-results {
+    height:440px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+#add-video-modal .search-results ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+    padding:10px 0;
+}
+#add-video-modal .search-results ul li { margin:0; padding:0 }
+#add-video-modal .search-results .item {
+    padding:20px 0;
+}
+
+#add-video-modal .search-results .item:not(:first-child) {
+    margin-top:10px;
+    border-top:1px solid #CED4DA;
+}
+#add-video-modal .search-results .item .img {
+    width:120px;
+    height:90px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image:url('http://placehold.it/100x100');
+    background-size: 130%;
+}
+#add-video-modal .search-results .item .desc {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width:700px;
+    height: 16px;
+    line-height: 16px;
+}
+#add-video-modal .search-results .item .add-video {
+    margin-right:10px;
+}
+#add-video-modal .search-results .getMore {
+    cursor:pointer;
 }
