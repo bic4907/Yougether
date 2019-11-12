@@ -42,70 +42,20 @@
 
 </div>
 @include('layout.nick-setting')
+
+
 <script>
+    // 유저 브라우저가 존재하는 것을 감지하기 위해 1초마다 서버로 생조신고를 보낸다.
+    var KEEPALIVE_URL = '{{ route('user.keepalive') }}';
+    var keepAliveTimer = setInterval(function() {
+        $.ajax({
+            type: "PUT",
+            url: KEEPALIVE_URL
+        });
+    }, 1000)
 
-    var NICK_URL = '{{ route('checkingSession') }}';
-
-    var app = new Vue({
-        el: '#nick-setting',
-        data: {
-            nickname: '로딩중',
-            flag_loading: true,
-        },
-        mounted: function() {
-            var self = this
-            this.refresh()
-            $('#nick-setting-modal #nicksetting__submit').click(function() {
-                self.modify()
-            })
-        },
-        methods: {
-            refresh: function() {
-                var self = this
-                self.flag_loading = true
-                $.ajax({
-                    type: "GET",
-                    url: NICK_URL,
-                    success: function(data) {
-                        if(data == '') {
-                            self.nickname = ''
-                            self.showModifyModal()
-                        } else {
-                            self.nickname = data
-                        }
-                        self.flag_loading = false
-                    },
-                    error: function(data) {
-
-                    }
-                });
-            },
-            modify: function() {
-                console.log('modify');
-                var self = this
-                var nickname = $('#nick-setting-modal #nicksetting__nickname').val()
-                $.ajax({
-                    type: "POST",
-                    url: NICK_URL,
-                    data: { nickname: nickname },
-                    success: function(data) {
-                        self.refresh()
-                        $('#nick-setting-modal').modal('hide')
-                    },
-                    error: function(data) {
-                        $.amaran({content:{'message':'닉네임 변경 실패'}});
-                    }
-                });
-            },
-            showModifyModal: function() {
-                var self = this
-                $('#nick-setting-modal #nicksetting__nickname').val(self.nickname)
-                $('#nick-setting-modal').modal('show')
-
-            }
-        }
-    })
 </script>
+
 
 <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

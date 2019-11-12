@@ -102,7 +102,7 @@
                     })
                     .listen('VideoSyncEvent', function(e) {
                         if(!self.is_host) {
-                            self.player.seekTo(e.videoTime)
+                            self.player.seekTo(e.videoTime + 2)
                         }
                     })
             }
