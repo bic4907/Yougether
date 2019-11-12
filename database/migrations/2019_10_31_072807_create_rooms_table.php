@@ -17,7 +17,7 @@ class CreateRoomsTable extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->string('current_host')->references('nickname')->on('users')->nullable();
+            $table->unsignedInteger('current_host')->references('id')->on('users')->nullable();
             $table->string('current_videoId')->nullable();
             $table->enum('current_videoStatus', [VideoStatus::Stopped, VideoStatus::Playing])->nullable();
             $table->integer('current_time')->nullable();
