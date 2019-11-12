@@ -21,3 +21,67 @@
         </div>
     </div>
 </div>
+<script>
+
+    var NICK_URL = '{{ route('checkingSession') }}';
+
+    var app = new Vue({
+        el: '#nick-setting',
+        data: {
+            nickname: '로딩중',
+            flag_loading: true,
+        },
+        mounted: function() {
+            var self = this
+            this.refresh()
+            $('#nick-setting-modal #nicksetting__submit').click(function() {
+                self.modify()
+            })
+        },
+        methods: {
+            refresh: function() {
+                var self = this
+                self.flag_loading = true
+                $.ajax({
+                    type: "GET",
+                    url: NICK_URL,
+                    success: function(data) {
+                        if(data == '') {
+                            self.nickname = ''
+                            self.showModifyModal()
+                        } else {
+                            self.nickname = data
+                        }
+                        self.flag_loading = false
+                    },
+                    error: function(data) {
+
+                    }
+                });
+            },
+            modify: function() {
+                console.log('modify');
+                var self = this
+                var nickname = $('#nick-setting-modal #nicksetting__nickname').val()
+                $.ajax({
+                    type: "POST",
+                    url: NICK_URL,
+                    data: { nickname: nickname },
+                    success: function(data) {
+                        self.refresh()
+                        $('#nick-setting-modal').modal('hide')
+                    },
+                    error: function(data) {
+                        $.amaran({content:{'message':'닉네임 변경 실패'}});
+                    }
+                });
+            },
+            showModifyModal: function() {
+                var self = this
+                $('#nick-setting-modal #nicksetting__nickname').val(self.nickname)
+                $('#nick-setting-modal').modal('show')
+
+            }
+        }
+    })
+</script>

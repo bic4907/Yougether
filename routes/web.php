@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('/user', 'User\LoginController@checkingSession')->name('checkingSession');
 Route::post('/user', 'User\LoginController@settingSession')->name('settingSession');
+Route::put('/user/keepalive', 'User\KeepAliveController@renew')->name('user.keepalive');
 
 Route::post('/room', 'Room\CreateController@makingRoom')->name('room.create');
 
