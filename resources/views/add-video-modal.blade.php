@@ -128,6 +128,11 @@
 
                             request.execute(function (response) {
 
+                                if(response.data[0].domain == 'youtube.quota') {
+                                    $.amaran({content: {'message': '오늘 이용량을 초과하였습니다'}});
+                                    return
+                                }
+
                                 self.search_nextPageToken = response.result.nextPageToken
 
                                 $.each(response.result.items, function(i, e) {
@@ -161,10 +166,13 @@
                             id: videoId,
                             part: 'statistics, snippet',
                         });
-
                         request.execute(function (response) {
+                            if(response.data[0].domain == 'youtube.quota') {
+                                $.amaran({content: {'message': '오늘 이용량을 초과하였습니다'}});
+                                return
+                            }
                             self.search_result = self.search_result.concat(response.result.items)
-                        });
+                        })
                     } catch {
                         $.amaran({content: {'message': '다시 시도해주세요'}});
                     }
