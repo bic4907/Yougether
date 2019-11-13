@@ -23,6 +23,7 @@ Route::post('/room', 'Room\CreateController@makingRoom')->name('room.create');
 
 Route::get('room/{room_id}', 'Room\ShowController@show')->name('room.enter');
 Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
+Route::get('room/{room_id}/list', 'Video\ListController@getList')->name('room.chat.list');
 Route::post('room/{room_id}/sync', 'Room\SyncController@renew')->name('room.chat.sync');
 
 Route::get('room', function () {
