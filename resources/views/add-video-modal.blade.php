@@ -109,7 +109,7 @@
                 }
 
 
-                gapi.client.setApiKey('AIzaSyD44WIZGva9o34xBYNrpXVHr0I4rFqggWo');
+                gapi.client.setApiKey('AIzaSyCwFrzlv37L5efs-MHHdUxT-S9fAQCVfAQ');
 
                 this.search_result = []
                 if(flag_isURL) {
@@ -127,8 +127,7 @@
                             });
 
                             request.execute(function (response) {
-
-                                if(response.data[0].domain == 'youtube.quota') {
+                                if(response.code == 403 && response.data[0].domain == 'usageLimits') {
                                     $.amaran({content: {'message': '오늘 이용량을 초과하였습니다'}});
                                     return
                                 }
@@ -158,7 +157,7 @@
 
                 if(videoId == null) return
 
-                gapi.client.setApiKey('AIzaSyD44WIZGva9o34xBYNrpXVHr0I4rFqggWo');
+                gapi.client.setApiKey('AIzaSyCwFrzlv37L5efs-MHHdUxT-S9fAQCVfAQ');
 
                 gapi.client.load('youtube', 'v3', function () {
                     try {
@@ -167,7 +166,7 @@
                             part: 'statistics, snippet',
                         });
                         request.execute(function (response) {
-                            if(response.data[0].domain == 'youtube.quota') {
+                            if(response.code == 403 && response.data[0].domain == 'usageLimits') {
                                 $.amaran({content: {'message': '오늘 이용량을 초과하였습니다'}});
                                 return
                             }
