@@ -6,7 +6,6 @@ use App\Models\VideoInfo;
 
 class VideoInfoParserController extends ParserController
 {
-    private $VIDEO_INFO_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
     /**
      * 비디오 정보를 Youtube Data API를 이용해서 가져온다.
@@ -15,14 +14,14 @@ class VideoInfoParserController extends ParserController
      * @param string $videoId Youtube 비디오 재생ID
      * @return VideoInfo 비디오 정보 객체
      */
-    function getVideoInfo(string $videoId) {
-
+    static function getVideoInfo(string $videoId) {
+        $VIDEO_INFO_URL = 'https://www.googleapis.com/youtube/v3/videos';
         // 캐싱된 비디오정보는 바로 반환시킨다.
         $vi = VideoInfo::where('videoId', '=', $videoId)->first();
         if($vi != null) return $vi;
 
-        $rawJson = $this->getJSON(
-            $this->VIDEO_INFO_URL,
+        $rawJson = getJSON(
+            $VIDEO_INFO_URL,
             array(
                 'id'=>$videoId,
                 'part'=>'contentDetails, snippet',

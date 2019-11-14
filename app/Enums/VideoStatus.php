@@ -6,6 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class VideoStatus extends Enum
 {
-    const Stopped = "Stopped";
+    const Queued = "Queued";
     const Playing = "Playing";
+    const Played = "Played";
 }

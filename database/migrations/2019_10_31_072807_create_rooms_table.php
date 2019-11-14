@@ -19,7 +19,7 @@ class CreateRoomsTable extends Migration
             $table->string('title');
             $table->unsignedInteger('current_host')->references('id')->on('users')->nullable();
             $table->string('current_videoId')->nullable();
-            $table->enum('current_videoStatus', [VideoStatus::Stopped, VideoStatus::Playing])->nullable();
+            $table->enum('current_videoStatus', [VideoStatus::Queued, VideoStatus::Playing, VideoStatus::Played])->nullable();
             $table->integer('current_time')->nullable();
             $table->integer('current_duration')->nullable();
             $table->timestamps();
