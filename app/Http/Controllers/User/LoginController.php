@@ -16,7 +16,14 @@ class LoginController extends Controller
             return Null;
         }
         else{
+            $this->checkingModel();
             return Auth::user()->nickname;
+        }
+    }
+
+    public function checkingModel(){
+        if(!sizeof(User::where('nickname', Auth::user()->nickname)->get())){
+            return Null;
         }
     }
 
