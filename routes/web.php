@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('lobby');
-});
+//Route::get('/', function () {
+//    return view('lobby');
+//});
+
+Route::get('/', 'Room\LobbyController@show')->name('room.list');
 
 Route::get('/user', 'User\LoginController@checkingSession')->name('checkingSession');
 Route::post('/user', 'User\LoginController@settingSession')->name('settingSession');

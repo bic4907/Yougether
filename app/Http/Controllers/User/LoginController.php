@@ -16,7 +16,14 @@ class LoginController extends Controller
             return Null;
         }
         else{
+            $this->checkingModel();
             return Auth::user()->nickname;
+        }
+    }
+
+    public function checkingModel(){
+        if(!sizeof(User::where('nickname', Auth::user()->nickname)->get())){
+            return Null;
         }
     }
 
@@ -39,7 +46,11 @@ class LoginController extends Controller
     }
 
     public function updatingNickname($nickname){
-        User::where('nickname', Auth::user()->nickname)->update(['nickname' => $nickname]);
+
+        $user = User::where('nickname', Auth::user()->nickname)->find()
+        ->update(['nickname' => $nickname]);
+        //        $user->roles()->updateExistingPivot('nickname', $nickname);
+
     }
 
     public function checkingRegistered($nickname)
