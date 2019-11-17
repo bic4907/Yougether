@@ -13,7 +13,6 @@
 
         @for($i=0;$i<sizeof($room_info);$i++)
             <a href="{{route('room.enter', ['room_id' => $room_info[$i]->id])}}">
-{{--            <a href="#">--}}
                 <div class="room-card d-inline-block my-1 rounded col-5 ml-1 border border-light py-3">
                     <div class="container row">
                         <div class="col-auto">
@@ -28,7 +27,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <h6 class="lead" style="font-size:20px;">{{$room_info[$i]->videoTitle}}</h6>
+                                    <h6 class="lead" style="font-size:20px;">{{$room_info[$i]->videoTitle == Null ? '재생되고 있는 동영상이 없습니다.' : $room_info[$i]->videoTitle}}</h6>
                                 </div>
                             </div>
                             <div class="row">

@@ -46,11 +46,7 @@ class LoginController extends Controller
     }
 
     public function updatingNickname($nickname){
-
-        $user = User::where('nickname', Auth::user()->nickname)->find()
-        ->update(['nickname' => $nickname]);
-        //        $user->roles()->updateExistingPivot('nickname', $nickname);
-
+        User::where('nickname', Auth::user()->nickname)->update(['nickname' => $nickname]);
     }
 
     public function checkingRegistered($nickname)
