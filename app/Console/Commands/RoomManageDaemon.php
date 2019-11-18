@@ -47,7 +47,7 @@ class RoomManageDaemon extends Command
             print($rooms);
             foreach ($rooms as $room) {
                 // 만약 방에 비디오가 틀어져 있지 않은 경우
-                if ($room->currentVideoStatus == null) {
+                if ($room->current_videoId == null) {
                     $nextVideo = Video::where('room_id', '=', $room->id)
                         ->where('status', '=', VideoStatus::Queued)
                         ->first();

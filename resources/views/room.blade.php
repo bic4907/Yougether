@@ -109,21 +109,29 @@
                         self.chat_logs.push({'name':e.nickname, 'content':e.text})
                     })
                     .listen('VideoSyncEvent', function(e) {
-                        console.log(self.player.getPlayerState())
-                        if(self.player.getPlayerState() == 5) { //시작되지 않음
+
+                        if(self.player.getPlayerState() == 5 || self.player.getPlayerState() == 5) { //시작되지 않음
                             self.player.loadVideoById({
                                 videoId:e.videoId,
                                 startSeconds:e.videoTime,
                                 suggestedQuality:'auto'})
+                        } else {
+                            if(self.current_videoId != e.videoId) {
+                                self.player.loadVideoById({
+                                    videoId:e.videoId,
+                                    startSeconds:e.videoTime,
+                                    suggestedQuality:'auto'})
+                            } else {
+                                if(!self.is_host) {
+                                    self.player.seekTo(e.videoTime + 4)
+                                }
+                            }
                         }
 
                         self.current_videoId = e.videoId
                         self.current_time = e.videoTime
 
                         console.log(e);
-                        //if(!self.is_host) {
-                        //    self.player.seekTo(e.videoTime + 2)
-                        //}
                     })
                     .listen('VideoAddEvent', function(data) {
                         $.each(data.videoList, function(i, e) {
