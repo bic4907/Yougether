@@ -25,10 +25,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('user:delete')->everyMinute();
-        $schedule->command('room:manage')->everyMinute();
-        // $schedule->command('inspire')
-        //          ->hourly();
     }
 
     /**

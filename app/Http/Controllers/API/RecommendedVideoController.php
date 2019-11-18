@@ -8,11 +8,11 @@ use App\Http\Controllers\Controller;
 
 class RecommendedVideoController extends ParserController
 {
-    private $VIDEO_INFO_URL = 'https://www.googleapis.com/youtube/v3/search';
+    static private $VIDEO_INFO_URL = 'https://www.googleapis.com/youtube/v3/search';
 
-    function getNextVideoId(string $videoId) {
-        $rawJson = $this->getJSON(
-            $this->VIDEO_INFO_URL,
+    static function getNextVideoId(string $videoId) {
+        $rawJson = ParserController::getJSON(
+            self::$VIDEO_INFO_URL,
             array(
                 'relatedToVideoId'=>$videoId,
                 'part'=>'id',
@@ -24,8 +24,8 @@ class RecommendedVideoController extends ParserController
         return $rawJson['id']['videoId'];
     }
 
-    function getNextVideoInfo(string $videoId) {
-        $nextVideoId = $this->getNextVideoId($videoId);
+    static function getNextVideoInfo(string $videoId) {
+        $nextVideoId = self::getNextVideoId($videoId);
         return (new VideoInfoParserController)->getVideoInfo($nextVideoId);
     }
 

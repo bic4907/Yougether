@@ -110,7 +110,7 @@
                     })
                     .listen('VideoSyncEvent', function(e) {
 
-                        if(self.player.getPlayerState() == 5 || self.player.getPlayerState() == 5) { //시작되지 않음
+                        if(self.player.getPlayerState() == 5 || self.player.getPlayerState() == -1) { //시작되지 않음
                             self.player.loadVideoById({
                                 videoId:e.videoId,
                                 startSeconds:e.videoTime,
@@ -122,8 +122,8 @@
                                     startSeconds:e.videoTime,
                                     suggestedQuality:'auto'})
                             } else {
-                                if(!self.is_host) {
-                                    self.player.seekTo(e.videoTime + 4)
+                                if(!self.is_host && Math.abs(self.player.getCurrentTime() - e.videoTime) >= 2) {
+                                    self.player.seekTo(e.videoTime)
                                 }
                             }
                         }
