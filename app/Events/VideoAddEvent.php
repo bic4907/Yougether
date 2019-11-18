@@ -44,7 +44,7 @@ class VideoAddEvent implements ShouldBroadcast
         $videoList = DB::table('videos')
             ->join('video_infos', 'videos.video', '=', 'video_infos.videoId')
             ->where('videos.room_id','=', $this->room_id)
-            ->whereIn('status', [VideoStatus::Queued, VideoStatus::Playing]) //재생 중이거나 리스트에 있는 비디오만
+            ->whereIn('status', [VideoStatus::Queued]) //재생 중이거나 리스트에 있는 비디오만
             ->get();
         return ['videoList'=>$videoList];
     }

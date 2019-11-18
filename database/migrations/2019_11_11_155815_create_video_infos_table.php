@@ -16,7 +16,7 @@ class CreateVideoInfosTable extends Migration
     {
         Schema::create('video_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('videoId');
+            $table->string('videoId')->unique();
             $table->string('videoTitle');
             $table->text('videoDesc')->nullable();
             $table->integer('duration');

@@ -40,7 +40,9 @@ class VideoInfoParserController extends ParserController
         $vi->videoTitle = $rawJson['snippet']['title'];
         $vi->videoDesc = $rawJson['snippet']['description'];
         $vi->duration = Util::ISO8601ToSeconds($rawJson['contentDetails']['duration']);
-        $vi->tags = json_encode($rawJson['snippet']['tags'], JSON_UNESCAPED_SLASHES);
+        if(isset($rawJson['snippet']['tags'])) {
+            $vi->tags = json_encode($rawJson['snippet']['tags'], JSON_UNESCAPED_SLASHES);
+        }
         $vi->thumbnail = urlencode($rawJson['snippet']['thumbnails']['medium']['url']);
 
         $vi->save();
