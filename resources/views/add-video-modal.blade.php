@@ -87,7 +87,9 @@
         mounted: function() {
             this.$modal = $('#add-video-modal')
 
-            setTimeout(this.executeSearch, 2000)
+
+            // 첫 리스트 자동로딩
+            //setTimeout(this.executeSearch, 2000)
         },
         methods: {
             showModal: function() { this.$modal.modal('show') },
@@ -123,7 +125,7 @@
                             var request = gapi.client.youtube.search.list({
                                 q: self.search_keyword,
                                 part: 'id, snippet',
-                                maxResults: 10,
+                                maxResults: 3,
                             });
 
                             request.execute(function (response) {
@@ -150,6 +152,7 @@
             },
 
             videoAddSignal: function(videoId) {
+                this.hideModal()
                 roomApp.appendQueue(videoId)
             },
             appendResultByVideoId: function(videoId) {
@@ -188,7 +191,7 @@
                         var request = gapi.client.youtube.search.list({
                             q: self.search_keyword,
                             part: 'id, snippet',
-                            maxResults: 10,
+                            maxResults: 3,
                             pageToken: self.search_nextPageToken
                         });
 

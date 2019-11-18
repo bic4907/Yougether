@@ -14,7 +14,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Support\Facades\DB;
 
-class VideoAddEvent
+class VideoAddEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -39,13 +39,13 @@ class VideoAddEvent
         return new PrivateChannel('room.'.$this->room_id);
     }
 
-    public function broadcastwith()
+    public function broadcastWith()
     {
         $videoList = DB::table('videos')
-            ->join('video_infos', 'videos.id', '=', 'video_infos.id')
+            ->join('video_infos', 'videos.video', '=', 'video_infos.videoId')
             ->where('videos.room_id','=', $this->room_id)
-            ->whereIn('videoStatus', [VideoStatus::Queued, VideoStatus::Playing]) //재생 중이거나 리스트에 있는 비디오만
+            ->whereIn('status', [VideoStatus::Queued, VideoStatus::Playing]) //재생 중이거나 리스트에 있는 비디오만
             ->get();
-        return $videoList;
+        return ['videoList'=>$videoList];
     }
 }

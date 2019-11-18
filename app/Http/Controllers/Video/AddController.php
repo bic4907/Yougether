@@ -20,6 +20,9 @@ class AddController extends Controller
         $video->room_id = $room_id;
         $video->save();
 
+        // 비디오 정보 캐싱
+        VideoInfoParserController::getVideoInfo($video->video);
+        
         broadcast(new VideoAddEvent($room_id));
     }
 }

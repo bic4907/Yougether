@@ -34,15 +34,22 @@
                 <div class="col">
                     <div id="video-queue" class="border" style="margin-right: -1px;">
                         <ul class="video-items">
-                            <li v-for="video in video_queue" class="item">
-                                <span style="font-weight: bold">@{{ video.title }}</span>
-                                <span>
-                                    @{{ video.uploaded_by }}
-                                </span>
+                            <li v-for="item in video_queue" class="item">
+                                <div class="row no-gutters">
+                                    <div class="col-auto">
+                                        <div class="img rounded" :style="{ backgroundImage: 'url(\'' + item.thumbnail + '\')' }"></div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="title px-1 py-1" data-toggle="tooltip" data-placement="top" v-bind:title="item.videoTitle">@{{ item.videoTitle }}</div>
+                                        <div class="title px-1 py-1" data-toggle="tooltip" data-placement="top" v-bind:title="item.videoTitle">@{{ parseInt(item.duration / 60) }}m@{{ item.duration % 60 }}s</div>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                         <div class="video-control">
-                            <i class="add far fa-plus-square" onclick="addVideoApp.showModal()"></i>
+                            <center>
+                                <button type="button" class="btn btn-primary addBtn " onclick="addVideoApp.showModal()">비디오 추가</button>
+                            </center>
                         </div>
                     </div>
                 </div>
@@ -77,14 +84,15 @@
     var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> $room->id]) }}'
     var URL_SYNC = '{{ route('room.chat.sync', ['room_id'=> $room->id]) }}'
     var VIDEO_ADD = '{{ route('room.video.add', ['room_id'=> $room->id]) }}'
+    var VIDEO_LIST = '{{ route('room.video.list', ['room_id'=> $room->id]) }}'
 
     var roomApp = new Vue({
         el: '#room-container',
         data: {
             room_title: '{{ $room->title }}',
             chat_input: '',
-            chat_logs: [
-            ],
+            chat_logs: [],
+            video_queue: [],
             player: null,
 
             is_host: {{ $isHost ? 'true' :' false' }},
@@ -105,14 +113,19 @@
                             self.player.seekTo(e.videoTime + 2)
                         }
                     })
-                    .listen('VideoAddEvent', function(e) {
-                        console.log('비디오 추가요청', e)
+                    .listen('VideoAddEvent', function(data) {
+                        $.each(data.videoList, function(i, e) {
+                            data.videoList[i]['thumbnail'] = decodeURIComponent(e['thumbnail'])
+                        })
+                        self.video_queue = data.videoList
                     })
             }
 
             if(this.is_host) {
                 this.startVideoSyncHost()
             }
+
+            this.requestQueue()
 
         },
         methods: {
@@ -180,7 +193,29 @@
                     }
 
                  });
-            }
+            },
+             requestQueue: function() {
+                var self = this
+                 $.ajax({
+                     method: "GET",
+                     url: VIDEO_LIST,
+                     type: 'json',
+                     success: function(data) {
+
+                         $.each(data, function(i, e) {
+                             data[i]['thumbnail'] = decodeURIComponent(e['thumbnail'])
+                         })
+                        console.log(data)
+                         self.video_queue = data
+                         console.log('재생목록을 가져왔습니다')
+                     },
+                     error: function() {
+                         console.log('재생목록을 가져오기 실패')
+                     }
+
+                 });
+
+             },
         }
     })
 
@@ -210,6 +245,8 @@
         var videoId = videoId ? videoId : 'l502xg11uNM'
         roomApp.appendQueue(videoId)
     }
+
+
 
 </script>
 

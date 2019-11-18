@@ -19,7 +19,6 @@ class CreateVideoInfosTable extends Migration
             $table->string('videoId');
             $table->string('videoTitle');
             $table->text('videoDesc')->nullable();
-            $table->enum('videoStatus',[VideoStatus::Queued, VideoStatus::Playing, VideoStatus::Played]);
             $table->integer('duration');
             $table->text('tags')->nullable();
             $table->text('thumbnail')->nullable();

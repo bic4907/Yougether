@@ -56,6 +56,7 @@
             type: "PUT",
             url: KEEPALIVE_URL
         });
+        $('[data-toggle="tooltip"]').tooltip()
     }, 1000)
 
 </script>
