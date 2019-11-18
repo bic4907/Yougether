@@ -18,15 +18,21 @@ class VideoInfoParserController extends ParserController
         $VIDEO_INFO_URL = 'https://www.googleapis.com/youtube/v3/videos';
         // 캐싱된 비디오정보는 바로 반환시킨다.
         $vi = VideoInfo::where('videoId', '=', $videoId)->first();
-        if($vi != null) return $vi;
+        if($vi != null) {
+            return $vi;
+        }
 
-        $rawJson = getJSON(
-            $VIDEO_INFO_URL,
-            array(
-                'id'=>$videoId,
-                'part'=>'contentDetails, snippet',
-            )
-        )['items'][0];
+        try {
+            $rawJson = ParserController::getJSON(
+                $VIDEO_INFO_URL,
+                array(
+                    'id' => $videoId,
+                    'part' => 'contentDetails, snippet',
+                )
+            )['items'][0];
+        } catch(\ErrorException $errorException) {
+            return false;
+        }
 
         // 새로운 비디오 데이터베이스에 저장
         $vi  = new VideoInfo();
@@ -34,8 +40,9 @@ class VideoInfoParserController extends ParserController
         $vi->videoTitle = $rawJson['snippet']['title'];
         $vi->videoDesc = $rawJson['snippet']['description'];
         $vi->duration = Util::ISO8601ToSeconds($rawJson['contentDetails']['duration']);
-        $vi->tags = $rawJson['snippet']['tags'];
-        $vi->thumbnail = $rawJson['snippet']['thumbnails']['medium'];
+        $vi->tags = json_encode($rawJson['snippet']['tags'], JSON_UNESCAPED_SLASHES);
+        $vi->thumbnail = urlencode($rawJson['snippet']['thumbnails']['medium']['url']);
+
         $vi->save();
 
         return $vi;

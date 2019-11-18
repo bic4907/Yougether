@@ -76,6 +76,7 @@
     var ROOM_ID = '{{ $room->id }}'
     var URL_CHAT = '{{ route('room.chat.send', ['room_id'=> $room->id]) }}'
     var URL_SYNC = '{{ route('room.chat.sync', ['room_id'=> $room->id]) }}'
+    var VIDEO_ADD = '{{ route('room.video.add', ['room_id'=> $room->id]) }}'
 
     var roomApp = new Vue({
         el: '#room-container',
@@ -103,6 +104,9 @@
                         if(!self.is_host) {
                             self.player.seekTo(e.videoTime + 2)
                         }
+                    })
+                    .listen('VideoAddEvent', function(e) {
+                        console.log('비디오 추가요청', e)
                     })
             }
 
@@ -162,8 +166,20 @@
                 }
             },
             appendQueue: function(videoId) {
-                $.amaran({content:{'message':'동영상을 추가 중 입니다'}});
-                console.log(videoId)
+
+                $.ajax({
+                    method: "POST",
+                    url: VIDEO_ADD,
+                    type: 'json',
+                    data: { video_id : videoId },
+                    success: function(data) {
+                        $.amaran({content:{'message':'동영상을 추가 중 입니다'}});
+                    },
+                    error: function() {
+                        $.amaran({content:{'message':'동영상 추가요청 실패'}});
+                    }
+
+                 });
             }
         }
     })
@@ -189,6 +205,12 @@
             }
         });
     }
+
+    function addVideoMaually(videoId) {
+        var videoId = videoId ? videoId : 'l502xg11uNM'
+        roomApp.appendQueue(videoId)
+    }
+
 </script>
 
 @include('add-video-modal')

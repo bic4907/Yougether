@@ -27,12 +27,12 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <h6 class="lead" style="font-size:20px;">{{$room_info[$i]->videoTitle == Null ? '재생되고 있는 동영상이 없습니다.' : $room_info[$i]->videoTitle}}</h6>
+                                    <h6 class="lead" style="font-size:15px;">{{$room_info[$i]->videoTitle == Null ? '재생되고 있는 동영상이 없습니다.' : $room_info[$i]->videoTitle}}</h6>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <h6 class="lead" style="font-size:20px;">{{$admission[$i]}}</h6>
+                                    <h6 class="lead" style="font-size:15px;"><i class="fas fa-users mr-2"></i>{{$admission[$i]}}</h6>
                                 </div>
                             </div>
                         </div>

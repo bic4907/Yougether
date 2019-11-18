@@ -8,13 +8,13 @@ use Curl\Curl;
 
 class ParserController extends Controller
 {
-    private $YOUTUBE_API_KEY = "AIzaSyD44WIZGva9o34xBYNrpXVHr0I4rFqggWo";
+    static $YOUTUBE_API_KEY = "AIzaSyD44WIZGva9o34xBYNrpXVHr0I4rFqggWo";
 
-    function getJSON(string $url, array $params) {
+    static function getJSON(string $url, array $params) {
 
         // Youtube API Key 추가
-        $params['key'] = $this->YOUTUBE_API_KEY;
-        
+        $params['key'] = self::$YOUTUBE_API_KEY;
+
         $curl = new Curl();
         $curl->get($url, $params);
         $curl->close();

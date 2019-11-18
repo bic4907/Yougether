@@ -11,10 +11,6 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('lobby');
-//});
-
 Route::get('/', 'Room\LobbyController@show')->name('room.list');
 
 Route::get('/user', 'User\LoginController@checkingSession')->name('checkingSession');
@@ -25,13 +21,10 @@ Route::post('/room', 'Room\CreateController@makingRoom')->name('room.create');
 
 Route::get('room/{room_id}', 'Room\ShowController@show')->name('room.enter');
 Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
+
+Route::get('room/{room_id}/video', 'Video\AddController@send')->name('room.video.list');
+Route::post('room/{room_id}/video', 'Video\AddController@addVideo')->name('room.video.add');
+
 Route::post('room/{room_id}/sync', 'Room\SyncController@renew')->name('room.chat.sync');
 
-Route::get('room', function () {
-    return view('room');
-});
-
-
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
