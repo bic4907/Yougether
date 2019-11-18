@@ -19,6 +19,7 @@ class CreateVideosTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('video');
+            $table->enum('status', [VideoStatus::Queued, VideoStatus::Playing, VideoStatus::Played]);
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->timestamps();
