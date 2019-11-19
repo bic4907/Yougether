@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\User;
+use Carbon\Carbon;
 
 class userExitCron extends Command
 {
