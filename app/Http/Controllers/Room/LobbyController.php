@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Room;
 use App\Models\VideoInfo;
+use Illuminate\Support\Facades\Auth;
 
 class LobbyController extends Controller
 {
@@ -15,6 +16,8 @@ class LobbyController extends Controller
         $tb_video_info = (new Videoinfo())->getTable();
         $tb_room = (new Room())->getTable();
         $admission = Null;
+
+        $this->lobbyChecking();
 
         $room_info = Room::leftJoin($tb_video_info, function ($join) use ($tb_video_info, $tb_room) {
                 $join->on($tb_room.'.current_videoId', '=', $tb_video_info.'.videoId');
@@ -25,5 +28,9 @@ class LobbyController extends Controller
         }
 
         return view('lobby', ['room_info'=>$room_info, 'admission'=>$admission]);
+    }
+
+    public function lobbyChecking(){
+        User::where('nickname', Auth::user()->nickname)->update(['room_id'=>Null]);
     }
 }
