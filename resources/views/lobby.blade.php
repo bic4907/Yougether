@@ -41,4 +41,8 @@
             </a>
         @endfor
     </div>
+
+    <div style="position: relative; left: 45%; bottom: 10%;">
+    {{ $room_info->links() }}
+    </div>
 @endsection

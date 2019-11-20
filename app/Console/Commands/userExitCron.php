@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class userExitCron extends Command
 {
@@ -39,6 +40,6 @@ class userExitCron extends Command
      */
     public function handle()
     {
-        User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->update(['room_id'=>Null]);
+        User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->update(['room_id' => Null]);
     }
 }
