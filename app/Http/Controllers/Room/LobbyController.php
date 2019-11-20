@@ -18,22 +18,30 @@ class LobbyController extends Controller
             $this->lobbyChecking();
         }
 
+        $room_info = $this->roomInformation();
+
+        dd($room_info[1]);
+
+        return view('lobby', ['room_info'=>$room_info[0], 'admission'=>$room_info[1]]);
+    }
+
+    public function roomInformation(){
+
         $tb_video_info = (new Videoinfo())->getTable();
         $tb_room = (new Room())->getTable();
         $admission = Null;
 
-        $room_info = Room::leftJoin($tb_video_info, function ($join) use ($tb_video_info, $tb_room) {
-                $join->on($tb_room.'.current_videoId', '=', $tb_video_info.'.videoId');
-            })->orderBy($tb_room.'.id', 'asc')->select([$tb_room.'.id', $tb_room.'.title', $tb_video_info.'.videoTitle'])->paginate(6);
-//            ->get([$tb_room.'.id', $tb_room.'.title', $tb_video_info.'.videoTitle']);
+        $room_info[0] = Room::leftJoin($tb_video_info, function ($join) use ($tb_video_info, $tb_room) {
+            $join->on($tb_room.'.current_videoId', '=', $tb_video_info.'.videoId');
+        })->orderBy($tb_room.'.id', 'asc')->select([$tb_room.'.id', $tb_room.'.title', $tb_video_info.'.videoTitle'])->paginate(6);
 
-//        dd($room_info[0]);
-
-        for($i=0;$i<sizeof($room_info);$i++) {
-            $admission[$i] = User::where('room_id', $room_info[$i]->id)->count();
+        for($i=0;$i<sizeof($room_info[0]);$i++) {
+            $admission[$i] = User::where('room_id', $room_info[0][$i]->id)->count();
         }
 
-        return view('lobby', ['room_info'=>$room_info, 'admission'=>$admission]);
+        $room_info[1] = $admission;
+
+        return $room_info;
     }
 
     public function lobbyChecking(){
