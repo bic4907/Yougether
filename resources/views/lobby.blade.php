@@ -27,7 +27,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <h6 class="lead" style="font-size:15px;">{{$room_info[$i]->videoTitle == Null ? '재생되고 있는 동영상이 없습니다.' : $room_info[$i]->videoTitle}}</h6>
+                                    <marquee><h6 class="lead" style="font-size:15px;">{{$room_info[$i]->videoTitle == Null ? '재생되고 있는 동영상이 없습니다.' : $room_info[$i]->videoTitle}}</h6></marquee>
                                 </div>
                             </div>
                             <div class="row">

@@ -139,6 +139,16 @@
                         })
                         self.video_queue = data.videoList
                     })
+                    .listen('RoomInfoChangeEvent', function(data) {
+                        var self = this
+                        var current_host = data.roomInfo.room_host_nickname
+                        if(authApp.nickname == current_host) {
+                            self.is_host = true
+                        } else {
+                            self.is_host = false
+                        }
+                    })
+
             }
 
             if(this.is_host) {
@@ -180,6 +190,9 @@
                 if(self.current_videoId == null || self.current_videoId == '') return;
 
                 self.current_time = self.player.getCurrentTime()
+                // 만약 비디오가 거의다 재생되가면 동기화하지 않음
+
+                if(self.player.getDuration() - self.current_time  <= 3) return;
 
                 $.ajax({
                     method: "POST",
