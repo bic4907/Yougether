@@ -180,6 +180,9 @@
                 if(self.current_videoId == null || self.current_videoId == '') return;
 
                 self.current_time = self.player.getCurrentTime()
+                // 만약 비디오가 거의다 재생되가면 동기화하지 않음
+
+                if(self.player.getDuration() - self.current_time  <= 3) return;
 
                 $.ajax({
                     method: "POST",
