@@ -144,8 +144,10 @@
 
                         if(authApp.nickname == current_host) {
                             self.is_host = true
+                            self.startVideoSyncHost()
                         } else {
                             self.is_host = false
+                            self.stopVideoSyncHost()
                         }
                     })
 
@@ -179,9 +181,11 @@
             },
             startVideoSyncHost: function() {
                 var self = this
+                if(this.videoSyncTimer != null) return
                 this.videoSyncTimer = setInterval(self.sendVideoSyncInfo, 1000)
             },
             stopVideoSyncHost: function() {
+                if(this.videoSyncTimer == null) return
                 clearInterval(this.videoSyncTimer)
             },
             sendVideoSyncInfo: function() {
