@@ -9,6 +9,7 @@ use App\Video;
 use Illuminate\Http\Request;
 use App\Room;
 use App\Events\VideoSyncEvent;
+use Illuminate\Support\Facades\Auth;
 
 class SyncController extends Controller
 {
@@ -19,11 +20,14 @@ class SyncController extends Controller
             $request->input('videoTime') == null
         ) abort(503);
 
-        // 1. 유저가 호스트인지 확인합니다.
-
 
         // 2. 만약 요청한 유저가 호스트가 맞다면 방 정보를 갱신합니다.
         $room = Room::findOrFail($room_id);
+
+        if(Auth::user() and $room->current_host != Auth::user()->id) {
+            abort(503);
+        }
+
         $room->current_videoId = $request->input('videoId');
         $room->current_time = $request->input('videoTime');
         $room->current_videoStatus = VideoStatus::Playing;
