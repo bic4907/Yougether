@@ -3,29 +3,24 @@
 namespace App\Http\Controllers\Room;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\User;
 use App\Room;
 use App\Models\VideoInfo;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class LobbyController extends Controller
 {
     public function show(){
-
         if(Auth::user()) {
             $this->lobbyChecking();
         }
 
         $room_info = $this->roomInformation();
 
-        dd($room_info[1]);
-
         return view('lobby', ['room_info'=>$room_info[0], 'admission'=>$room_info[1]]);
     }
 
-    public function roomInformation(){
+    static public function roomInformation(){
 
         $tb_video_info = (new Videoinfo())->getTable();
         $tb_room = (new Room())->getTable();
@@ -44,7 +39,8 @@ class LobbyController extends Controller
         return $room_info;
     }
 
-    public function lobbyChecking(){
-        User::where('nickname', Auth::user()->nickname)->update(['room_id'=>Null]);
+    public function lobbyChecking()
+    {
+        User::where('nickname', Auth::user()->nickname)->update(['room_id' => Null]);
     }
 }
