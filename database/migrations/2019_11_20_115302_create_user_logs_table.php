@@ -15,12 +15,12 @@ class CreateUserLogsTable extends Migration
     {
         Schema::create('user_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('room_id');
+            $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');;
-            $table->boolean('rewind');
-            $table->boolean('add_video');
+            $table->boolean('rewind')->default(false);
+            $table->boolean('add_video')->default(false);
             $table->timestamps();
         });
     }
