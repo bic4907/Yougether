@@ -17,9 +17,9 @@ class ShowController extends Controller
         $isHost = false;
         if(Auth::user()) {
             $isHost = $room->current_host == Auth::user()->id;
+            $this->enterChecking($room_id);
         }
 
-        $this->enterChecking($room_id);
         return view('room', ['room'=>$room, 'isHost'=>$isHost]);
     }
 
