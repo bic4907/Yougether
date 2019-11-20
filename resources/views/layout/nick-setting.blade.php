@@ -25,7 +25,7 @@
 
     var NICK_URL = '{{ route('checkingSession') }}';
 
-    var app = new Vue({
+    var authApp = new Vue({
         el: '#nick-setting',
         data: {
             nickname: '로딩중',

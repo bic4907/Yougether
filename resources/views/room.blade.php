@@ -139,6 +139,16 @@
                         })
                         self.video_queue = data.videoList
                     })
+                    .listen('RoomInfoChangeEvent', function(data) {
+                        var self = this
+                        var current_host = data.roomInfo.room_host_nickname
+                        if(authApp.nickname == current_host) {
+                            self.is_host = true
+                        } else {
+                            self.is_host = false
+                        }
+                    })
+
             }
 
             if(this.is_host) {

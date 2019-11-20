@@ -12,6 +12,7 @@ use Illuminate\Console\Command;
 use App\User;
 use Carbon\Carbon;
 use App\Models\VideoInfo;
+use App\Events\RoomInfoChangeEvent;
 
 class RoomManageDaemon extends Command
 {
@@ -77,6 +78,7 @@ class RoomManageDaemon extends Command
 
                     // 바뀐 방정보 Broadcast
                     broadcast(new VideoAddEvent($room->id));
+                    broadcast(new RoomInfoChangeEvent($room->id));
                 }
             } else {
                 // 만약 플레이중인 비디오가 있을 경우
@@ -121,6 +123,7 @@ class RoomManageDaemon extends Command
 
                         // 바뀐 방정보 Broadcast
                         broadcast(new VideoAddEvent($room->id));
+                        broadcast(new RoomInfoChangeEvent($room->id));
 
                     } else {
                         // 추천비디오
