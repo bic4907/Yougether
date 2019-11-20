@@ -47,7 +47,6 @@ class RoomManageDaemon extends Command
      */
     public function handle()
     {
-
         $rooms = Room::all();
         foreach ($rooms as $room) {
             // 만약 방에 비디오가 틀어져 있지 않은 경우

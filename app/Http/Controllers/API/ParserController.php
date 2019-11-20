@@ -8,7 +8,7 @@ use Curl\Curl;
 
 class ParserController extends Controller
 {
-    static $YOUTUBE_API_KEY = "AIzaSyD44WIZGva9o34xBYNrpXVHr0I4rFqggWo";
+    static $YOUTUBE_API_KEY = "AIzaSyCwFrzlv37L5efs-MHHdUxT-S9fAQCVfAQ";
 
     static function getJSON(string $url, array $params) {
 

@@ -41,7 +41,7 @@ class RoomInfoChangeEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         $room_info = Room::find($this->room_id);
-        $room_info->room_host_nickname = User::find($room_info->current_host)->first()->nickname;
+        $room_info->host_nickname = User::find($room_info->current_host)->nickname;
         return ['roomInfo'=>$room_info];
     }
 }
