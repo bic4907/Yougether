@@ -5,41 +5,22 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class userExitCron extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'user:exit';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'checking exit for browser';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
-        User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->update(['room_id' => Null]);
+        $room_id = User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->get('room_id');
+        Redis::set($room_id, Redis::get($room_id) - 1);
+        //User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->update(['room_id' => Null]);
     }
 }

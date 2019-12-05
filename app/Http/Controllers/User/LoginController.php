@@ -30,7 +30,7 @@ class LoginController extends Controller
     public function settingSession(Request $request) {
         if(!Auth::user()){
             $this->checkingRegistered($request->nickname);
-            return $request->cookie('yougether_session');
+            return $request->nickname;
         }
         else{
             $this->updatingNickname($request->nickname);

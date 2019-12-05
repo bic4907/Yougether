@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Room;
 use Auth;
+use Illuminate\Support\Facades\Redis;
 
 class CreateController extends Controller
 {
@@ -16,6 +17,7 @@ class CreateController extends Controller
         $todo_room->current_host = Auth::user()->id; // 방을 만든 사람을 호스트로 지정함
         $todo_room->save();
 
+        Redis::set($todo_room->id, 1);
         return route('room.enter', [$todo_room->id]);
     }
 }

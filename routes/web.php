@@ -19,6 +19,8 @@ Route::put('/user/keepalive', 'User\KeepAliveController@renew')->name('user.keep
 
 Route::post('/room', 'Room\CreateController@makingRoom')->name('room.create');
 
+Route::get('room_get', 'Room\LobbyController@roomInformation')->name('room.get');
+
 Route::get('room/{room_id}', 'Room\ShowController@show')->name('room.enter');
 Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
 

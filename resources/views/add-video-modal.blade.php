@@ -1,4 +1,5 @@
 <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+
 <div id="add-video-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
