@@ -22,18 +22,18 @@
             });
         </script>
     </head>
-<html>
+<body>
 <div class="container">
     <div class="container pt-4 mt-5 row">
 
         <div class="col">
-        <h1 id="app-title" class="display-5"><a href="/">Yougether</a></h1>
-        <p class="lead">유튜브 동영상 같이보기 플랫폼</p>
+        <h1 id="app-title" class="display-5"><a href="/" class="text-white">Yougether</a></h1>
+        <p class="lead text-white">유튜브 동영상 같이보기 플랫폼</p>
         </div>
 
         <div class="col">
             <div id="nick-setting" class="d-inline lead pt-3" style="float:right">
-                <span>@{{ nickname ? nickname : '미설정' }}</span><span @click="showModifyModal"><i class="fas fa-cog ml-2" style="cursor:pointer"></i></span>
+                <span class="text-white">@{{ nickname ? nickname : '미설정' }}</span><span @click="showModifyModal"><i class="fas fa-cog ml-2 text-white" style="cursor:pointer"></i></span>
             </div>
 
         </div>
@@ -65,5 +65,5 @@
 <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</html>
+</body>
 </html>

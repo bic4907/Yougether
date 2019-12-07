@@ -44,11 +44,11 @@
 
     <div id="room-element"class="container py-5 my-1">
         <div id="room-cards">
-                <div v-for="room in room_list" class="room-card d-inline-block my-1 rounded col-5 ml-1 border border-light py-3">
+                <div v-for="room in room_list" class="room-card d-inline-block my-1 rounded col-5 ml-1 py-3">
                     <a :href="'/room/'+ room.room_id">
                         <div class="container row">
                             <div class="col-auto">
-                                <img src="http://placehold.it/100x100" class="rounded-circle">
+                                <div :style="{ backgroundImage: 'url(\'' + room.thumbnail + '\')' }" class="thumb rounded"></div>
                             </div>
                             <div class="col">
                                 <div class="row">
@@ -62,7 +62,7 @@
                                     <div class="col">
                                         <marquee>
                                             <h6 class="lead" style="font-size:15px;">
-                                                @{{ room.videoTitle }}
+                                                @{{ room.videoTitle ? room.videoTitle : '재생중인 동영상이 없습니다' }}
                                             </h6>
                                         </marquee>
                                     </div>
@@ -106,6 +106,11 @@
                         type: 'json',
                         data: {room_id: room_id},
                         success: function (data) {
+
+
+                            data['thumbnail'] = decodeURIComponent(data['thumbnail'])
+
+
                             self.room_list.push(data)
                         },
                         error: function () {
