@@ -2,12 +2,12 @@
 @section('content')
 
 
-<div id="room-container" class="container border border-white rounded">
+<div id="room-container" class="">
     <div class="row">
         <div class="col">
             <div class="row">
                 <div class="col py-3">
-                    <span id="room-name" class="lead px-3">@{{ room_title }}</span>
+                    <span id="room-name" class="lead text-white">@{{ room_title }}</span>
                 </div>
             </div>
             <div class="row">
@@ -17,12 +17,11 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <label class="ml-3">공유하기</label>
                     <div class="input-group">
                         <input type="text" class="form-control" value="{{ route('room.enter', ['room_id'=>$room->id]) }}" readonly>
 
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="button-copyurl">URL 복사</button>
+                            <button class="btn btn-secondary" type="button" id="button-copyurl">URL 복사</button>
                         </div>
                     </div>
                 </div>
@@ -32,21 +31,21 @@
         <div class="col-auto">
             <div class="row no-gutters">
                 <div class="col">
-                    <div id="video-queue" class="border" style="margin-right: -1px;">
+                    <div id="video-queue" class="" style="margin-right: -1px;">
                         <ul class="video-items">
                             <li v-for="item in video_queue" class="item">
-                                <div class="row no-gutters">
+                                <div class="row no-gutters" data-toggle="tooltip" data-placement="top" v-bind:title="item.videoTitle">
                                     <div class="col-auto">
                                         <div class="img rounded" :style="{ backgroundImage: 'url(\'' + item.thumbnail + '\')' }"></div>
                                     </div>
                                     <div class="col">
-                                        <div class="title px-1 py-1" data-toggle="tooltip" data-placement="top" v-bind:title="item.videoTitle">@{{ item.videoTitle }}</div>
-                                        <div class="title px-1 py-1" data-toggle="tooltip" data-placement="top" v-bind:title="item.videoTitle">@{{ parseInt(item.duration / 60) }}m@{{ item.duration % 60 }}s</div>
+                                        <div class="title px-1 py-1">@{{ item.videoTitle }}</div>
+                                        <div class="title px-1 py-1">@{{ parseInt(item.duration / 60) }}m@{{ item.duration % 60 }}s</div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        <div class="video-control">
+                        <div class="video-control" style="background-color:transparent">
                             <center>
                                 <button type="button" class="btn btn-primary addBtn " onclick="addVideoApp.showModal()">비디오 추가</button>
                             </center>
@@ -54,7 +53,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div id="chat-window" class="border">
+                    <div id="chat-window" class="">
                         <ul class="chat-items">
                             <li v-for="chat in chat_logs" class="item">
                                 <span style="font-weight: bold">@{{ chat.name }}</span>
@@ -64,7 +63,7 @@
                             </li>
                         </ul>
                         <div class="chat-input">
-                            <input type="text" placeholder="채팅을 입력하세요" v-on:keyup.13="chatSubmit" v-model="chat_input">
+                            <input type="text" class="form-control" placeholder="채팅을 입력하세요" v-on:keyup.13="chatSubmit" v-model="chat_input">
                         </div>
                     </div>
                 </div>
@@ -271,7 +270,7 @@
     function onYouTubeIframeAPIReady() {
         roomApp.player = new YT.Player('yt-player', {
             width: '100%',
-            height: '430px;',
+            height: '482px;',
             events: {
                 'onReady': roomApp.onPlayerReady,
                 //'onStateChange': app.onPlayerStatusChange

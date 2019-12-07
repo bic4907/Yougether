@@ -49,7 +49,7 @@ class Room extends Model
      */
     function getCurrentHost() {
         $curHost = User::where('id', '=', $this->current_host)->first();
-        return $$curHost;
+        return $curHost;
     }
 
 
@@ -73,10 +73,10 @@ class Room extends Model
      * @param Video $video 추천 기준이 될 비디오정보 객체
      * @return VideoInfo|null 비디오 정보 객체
      */
-    function getRecommendedVideo(Video $video) {
+    function getRecommendedVideo(string $videoId) {
         $rcVideo = null;
         try {
-            $rcVideo = RecommendedVideoController::getNextVideoInfo($video);
+            $rcVideo = RecommendedVideoController::getNextVideoInfo($videoId);
         } catch(\ErrorException $exception) {
             // 비디오 할당량이 없다면 오류 발생
             $rcVideo = VideoInfo::all()->random(1)->first();
