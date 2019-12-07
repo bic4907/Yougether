@@ -52,7 +52,8 @@ class LobbyController extends Controller
 
     public function lobbyChecking()
     {
-        $room_id = User::where('nickname', Auth::user()->nickname)->get('room_id');
-        Redis::set($room_id, Redis::get($room_id) - 1);
+        $room_id = User::where('nickname', Auth::user()->nickname)->select('room_id')->first();
+        User::where('nickname', Auth::user()->nickname)->update(['room_id'=>Null]);
+        Redis::set($room_id->room_id, Redis::get($room_id->room_id) - 1);
     }
 }
