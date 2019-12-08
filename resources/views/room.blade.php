@@ -162,14 +162,12 @@
         methods: {
             chatSubmit: function() {
                 if(this.chat_input == '') return;
-                var _user_id = 1; //user_id 변경해야함
                 var _text = this.chat_input;
 
                 $.ajax({
                     method: "POST",
                     url: URL_CHAT,
                     data: {
-                        user_id : _user_id,
                         text : _text
                     }
                 });

@@ -24,9 +24,9 @@ Route::get('room_get', 'Room\LobbyController@roomInformation')->name('room.get')
 Route::get('room/{room_id}', 'Room\ShowController@show')->name('room.enter');
 Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
 
-Route::get('room/{room_id}/video', 'Video\ListController@getList')->name('room.video.list');
-Route::post('room/{room_id}/video', 'Video\AddController@addVideo')->name('room.video.add');
+Route::get('room/{room_id}/video', 'Video\VideoController@getVideoList')->name('room.video.list');
+Route::post('room/{room_id}/video', 'Video\VideoController@addVideo')->name('room.video.add');
 
-Route::post('room/{room_id}/sync', 'Room\SyncController@renew')->name('room.chat.sync');
+Route::post('room/{room_id}/sync', 'Room\RoomSyncController@updateRoomSync')->name('room.chat.sync');
 
 Auth::routes();
