@@ -23,6 +23,6 @@ class ChatController extends Controller
         $chat->room_id = intval($room_id);
         $chat->save();
 
-        broadcast(new MessageSentEvent($room_id, $user->nickname, $text));
+        broadcast(new MessageSentEvent($room_id, $user->nickname, $text)); //채팅 전송 이벤트 발생 -> 브로드캐스트
     }
 }
