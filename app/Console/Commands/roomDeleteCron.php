@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Http\Controllers\Room\LobbyController;
+use App\Http\Controllers\Room\Lobby;
 use App\Room;
 use Illuminate\Support\Facades\Redis;
 

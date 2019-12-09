@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class KeepAliveController extends Controller
+class KeepAlive extends Controller
 {
     function renew() {
         $user = Auth::user();

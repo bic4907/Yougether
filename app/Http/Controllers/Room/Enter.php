@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\Redis;
 
-class ShowController extends Controller
+class Enter extends Controller
 {
     public function show($room_id, Request $request)
     {

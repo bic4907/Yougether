@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Http\Request;
 
-class LobbyController extends Controller
+class Lobby extends Controller
 {
     public function show(){
-
         if(Auth::user()) {
             $this->lobbyChecking();
         }
+
         $tb_video_info = (new Videoinfo())->getTable();
         $tb_room = (new Room())->getTable();
         $room_id_array = Null;
@@ -35,9 +35,9 @@ class LobbyController extends Controller
         return view('lobby', ['room_info'=>$room_id_array]);
     }
 
+    //ajax 방 하나하나의 정보를 가져올 때 사용
     static public function roomInformation(Request $request)
     {
-
         $tb_video_info = (new Videoinfo())->getTable();
         $tb_room = (new Room())->getTable();
         $admission = Null;
@@ -52,6 +52,7 @@ class LobbyController extends Controller
         return $room;
     }
 
+    //로비로 나갔을 때 방번호 빼주
     public function lobbyChecking()
     {
         $room_id = User::where('nickname', Auth::user()->nickname)->select('room_id')->first();

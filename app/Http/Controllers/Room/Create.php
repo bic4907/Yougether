@@ -8,9 +8,9 @@ use App\Room;
 use Auth;
 use Illuminate\Support\Facades\Redis;
 
-class CreateRoom extends Controller
+class Create extends Controller
 {
-    public function createRoom(Request $request)
+    public function makingRoom(Request $request)
     {
         $todo_room = new Room();
         $todo_room->title = $request->input('roomName');
