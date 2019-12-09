@@ -7,6 +7,7 @@ use App\Events\VideoAddEvent;
 use App\Http\Controllers\API\VideoInfoParserController;
 use App\Http\Controllers\UserLog\UserLogController;
 use App\User;
+use App\UserLog;
 use App\Video;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class VideoController extends Controller
 {
     public function addVideo($room_id, Request $request)
     {
-        if (!User::checkUserAddCount(Auth::user()->id, $room_id))
+        if (UserLog::getUserAddCount(Auth::user()->id, $room_id) > 2)
         {
             abort(503);
         }

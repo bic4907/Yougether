@@ -6,6 +6,7 @@ use App\Enums\VideoStatus;
 use App\Events\MessageSentEvent;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\UserLog;
 use App\Video;
 use Illuminate\Http\Request;
 use App\Room;
@@ -47,7 +48,7 @@ class RoomSyncController extends Controller
         }
 
         //유저가 해당 방에서 비디오를 얼마나 되감기했는지 검사
-        if(!User::checkUserUpdateCount($user->id, $room->id))
+        if(UserLog::getUserUpdateCount($user->id, $room->id) > 2)
         {
             abort(503);
         }
