@@ -19,16 +19,18 @@ class LobbyController extends Controller
         }
         $tb_video_info = (new Videoinfo())->getTable();
         $tb_room = (new Room())->getTable();
+        $room_id_array = Null;
 
         $room_info = Room::leftJoin($tb_video_info, function ($join) use ($tb_video_info, $tb_room) {
             $join->on($tb_room.'.current_videoId', '=', $tb_video_info.'.videoId');
             })->orderBy($tb_room.'.id', 'asc')->select([$tb_room.'.id'])->paginate(6);
 
-        for($i=0;$i<sizeof($room_info);$i++){
-            $temp[$i] = $room_info[$i]->id;
+        if(sizeof($room_info)) {
+            for ($i = 0; $i < sizeof($room_info); $i++) {
+                $temp[$i] = $room_info[$i]->id;
+            }
+            $room_id_array = implode(',', $temp);
         }
-
-        $room_id_array = implode( ',', $temp );
 
         return view('lobby', ['room_info'=>$room_id_array]);
     }
@@ -53,7 +55,7 @@ class LobbyController extends Controller
     public function lobbyChecking()
     {
         $room_id = User::where('nickname', Auth::user()->nickname)->select('room_id')->first();
-        User::where('nickname', Auth::user()->nickname)->update(['room_id'=>Null]);
         Redis::set($room_id->room_id, Redis::get($room_id->room_id) - 1);
+        User::where('nickname', Auth::user()->nickname)->update(['room_id'=>Null]);
     }
 }

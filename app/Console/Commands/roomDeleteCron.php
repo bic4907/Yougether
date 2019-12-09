@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Http\Controllers\Room\LobbyController;
 use App\Room;
+use Illuminate\Support\Facades\Redis;
 
 class roomDeleteCron extends Command
 {
@@ -18,13 +19,11 @@ class roomDeleteCron extends Command
 
     public function handle()
     {
-        $room_info = LobbyController::roomInformation();
+        $room_info = Room::get();
 
-        if(!empty($room_info[1])){
-            for ($i = 0; $i < sizeof($room_info[1]); $i++) {
-                if ($room_info[1][$i] == 0) {
-                    Room::where('id', $room_info[0][$i]->id)->delete();
-                }
+        for($i=0;$i<sizeof($room_info);$i++){
+            if(Redis::get($room_info[$i]->id) == 0){
+                Room::where('id', $room_info[$i]->id)->delete();
             }
         }
     }

@@ -18,7 +18,6 @@ class ShowController extends Controller
         if(Auth::user()) {
             $isHost = $room->current_host == Auth::user()->id;
             $this->enterChecking($room_id);
-            Redis::set($room_id, Redis::get($room_id) + 1);
         }
 
         return view('room', ['room'=>$room, 'isHost'=>$isHost]);
@@ -26,5 +25,6 @@ class ShowController extends Controller
 
     public function enterChecking($room_id){
         User::where('nickname', Auth::user()->nickname)->update(['room_id'=>$room_id]);
+        Redis::set($room_id, Redis::get($room_id) + 1);
     }
 }
