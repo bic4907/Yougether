@@ -11,17 +11,17 @@
 |
 */
 
-Route::get('/', 'Room\LobbyController@show')->name('room.list');
+Route::get('/', 'Room\Lobby@show')->name('room.list');
 
-Route::get('/user', 'User\LoginController@checkingSession')->name('checkingSession');
-Route::post('/user', 'User\LoginController@settingSession')->name('settingSession');
-Route::put('/user/keepalive', 'User\KeepAliveController@renew')->name('user.keepalive');
+Route::get('/user', 'User\Login@checkingSession')->name('checkingSession');
+Route::post('/user', 'User\Login@settingSession')->name('settingSession');
+Route::put('/user/keepalive', 'User\KeepAlive@renew')->name('user.keepalive');
 
-Route::post('/room', 'Room\CreateController@makingRoom')->name('room.create');
+Route::post('/room', 'Room\Create@makingRoom')->namse('room.create');
 
-Route::get('room_get', 'Room\LobbyController@roomInformation')->name('room.get');
+Route::get('room_get', 'Room\Lobby@roomInformation')->name('room.get');
 
-Route::get('room/{room_id}', 'Room\ShowController@show')->name('room.enter');
+Route::get('room/{room_id}', 'Room\Enter@show')->name('room.enter');
 Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
 
 Route::get('room/{room_id}/video', 'Video\VideoController@getVideoList')->name('room.video.list');

@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class Login extends Controller
 {
     public function checkingSession(Request $request) {
         if(!Auth::user()) {
