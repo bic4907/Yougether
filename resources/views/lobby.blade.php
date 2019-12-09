@@ -38,8 +38,9 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <h6  id = "room-admission" class="lead" style="font-size:15px;"><i class="fas fa-users mr-2"></i>
-                                        @{{ room.admission }}
+                                    <h6 class="lead" style="font-size:15px;">
+                                        <i class="fas fa-users mr-2"></i>
+                                        <span v-bind:id="'room-admission' + room.room_id">@{{ room.admission }}</span>
                                     </h6>
                                 </div>
                             </div>
@@ -81,7 +82,7 @@
                             success: function (data) {
                                 data['thumbnail'] = decodeURIComponent(data['thumbnail'])
                                 self.room_list.push(data)
-                                $("#room-admission").html(data.admission);
+                                $("#room-admission" + room_id).html(data.admission);
                             },
                             error: function () {
                             }
