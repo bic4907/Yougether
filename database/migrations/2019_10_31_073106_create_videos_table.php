@@ -17,7 +17,7 @@ class CreateVideosTable extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('video');
             $table->enum('status', [VideoStatus::Queued, VideoStatus::Playing, VideoStatus::Played]);
             $table->unsignedBigInteger('room_id');

@@ -19,8 +19,10 @@ class userExitCron extends Command
 
     public function handle()
     {
-        $room_id = User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->get('room_id');
-        Redis::set($room_id, Redis::get($room_id) - 1);
-        //User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->update(['room_id' => Null]);
+        $room_id = User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->select('room_id')->first();
+        if(!empty($room_id)) {
+            Redis::set($room_id->room_id, Redis::get($room_id->room_id) - 1);
+        }
+        User::where('last_hit', '<', Carbon::now()->addSeconds(-3))->update(['room_id' => Null]);
     }
 }
