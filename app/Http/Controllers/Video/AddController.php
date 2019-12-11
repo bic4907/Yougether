@@ -22,7 +22,19 @@ class AddController extends Controller
 
         // 비디오 정보 캐싱
         VideoInfoParserController::getVideoInfo($video->video);
-        
+
+        broadcast(new VideoAddEvent($room_id));
+    }
+
+    public function deleteVideo($room_id, Request $request) {
+
+        $video = Video::findOrFail($request->input('queueItemId'));
+        if($video->user_id != Auth::id()) {
+            abort(403);
+        }
+
+        $video->delete();
+
         broadcast(new VideoAddEvent($room_id));
     }
 }

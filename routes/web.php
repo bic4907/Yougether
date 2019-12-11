@@ -26,6 +26,7 @@ Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send'
 
 Route::get('room/{room_id}/video', 'Video\ListController@getList')->name('room.video.list');
 Route::post('room/{room_id}/video', 'Video\AddController@addVideo')->name('room.video.add');
+Route::delete('room/{room_id}/video', 'Video\AddController@deleteVideo')->name('room.video.del');
 
 Route::post('room/{room_id}/sync', 'Room\SyncController@renew')->name('room.chat.sync');
 

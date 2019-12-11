@@ -41,6 +41,7 @@
                                     <div class="col">
                                         <div class="title px-1 py-1">@{{ item.videoTitle }}</div>
                                         <div class="title px-1 py-1">@{{ parseInt(item.duration / 60) }}m@{{ item.duration % 60 }}s</div>
+                                        <div class="title px-1 py-1" v-on:click="deleteVideo(item.id)">X</div>
                                     </div>
                                 </div>
                             </li>
@@ -130,7 +131,6 @@
                         self.current_videoId = e.videoId
                         self.current_time = e.videoTime
 
-                        console.log(e);
                     })
                     .listen('VideoAddEvent', function(data) {
                         $.each(data.videoList, function(i, e) {
@@ -231,6 +231,22 @@
 
                  });
             },
+            deleteVideo: function(queueItemId) {
+                console.log(queueItemId);
+                $.ajax({
+                    method: "DELETE",
+                    url: VIDEO_ADD,
+                    type: 'json',
+                    data: { queueItemId : queueItemId },
+                    success: function(data) {
+                        $.amaran({content:{'message':'동영상을 삭제중 입니다'}});
+                    },
+                    error: function() {
+                        $.amaran({content:{'message':'동영상을 삭제할 권한이 없습니다'}});
+                    }
+
+                });
+            },
              requestQueue: function() {
                 var self = this
                  $.ajax({
@@ -242,7 +258,6 @@
                          $.each(data, function(i, e) {
                              data[i]['thumbnail'] = decodeURIComponent(e['thumbnail'])
                          })
-                        console.log(data)
                          self.video_queue = data
                          console.log('재생목록을 가져왔습니다')
                      },
