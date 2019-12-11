@@ -31,15 +31,18 @@
                                 <div class="col">
                                     <marquee>
                                         <h6 class="lead" style="font-size:15px;">
+                                            <span v-bind:id="'room-videoTitle' + room.room_id">
                                             @{{ room.videoTitle ? room.videoTitle : '재생중인 동영상이 없습니다' }}
+                                            </span>
                                         </h6>
                                     </marquee>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <h6  id = "room-admission" class="lead" style="font-size:15px;"><i class="fas fa-users mr-2"></i>
-                                        @{{ room.admission }}
+                                    <h6 class="lead" style="font-size:15px;">
+                                        <i class="fas fa-users mr-2"></i>
+                                        <span v-bind:id="'room-admission' + room.room_id">@{{ room.admission }}</span>
                                     </h6>
                                 </div>
                             </div>
@@ -81,7 +84,8 @@
                             success: function (data) {
                                 data['thumbnail'] = decodeURIComponent(data['thumbnail'])
                                 self.room_list.push(data)
-                                $("#room-admission").html(data.admission);
+                                $("#room-admission" + room_id).html(data.admission);
+                                $("#room-videoTitle" + room_id).html(data.videoTitle ? data.videoTitle : '재생중인 동영상이 없습니다');
                             },
                             error: function () {
                             }
@@ -91,6 +95,6 @@
             })
         }
 
-        setInterval(roomUpdate, 3000)
+        setInterval(roomUpdate, 4400)
     </script>
 @endsection

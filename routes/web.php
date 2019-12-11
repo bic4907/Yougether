@@ -17,7 +17,7 @@ Route::get('/user', 'User\Login@checkingSession')->name('checkingSession');
 Route::post('/user', 'User\Login@settingSession')->name('settingSession');
 Route::put('/user/keepalive', 'User\KeepAlive@renew')->name('user.keepalive');
 
-Route::post('/room', 'Room\Create@makingRoom')->namse('room.create');
+Route::post('/room', 'Room\Create@makingRoom')->name('room.create');
 
 Route::get('room_get', 'Room\Lobby@roomInformation')->name('room.get');
 
