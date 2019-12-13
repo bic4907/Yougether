@@ -194,7 +194,7 @@
                 var self = this
                 if(this.videoLastSyncTimer != null) return;
                 this.videoLastSyncTimer = setInterval(self.sendLastVideoSyncInfo, 1200)
-            },
+            }, //이전 시간을 기존의 타이머보다 느리게 담음
             stopVideoSyncHost: function() {
                 if(this.videoSyncTimer == null) return;
                 clearInterval(this.videoSyncTimer)
@@ -210,22 +210,21 @@
                 if(!self.is_host) return;
 
                 self.current_time = self.player.getCurrentTime();
-                if(self.is_host && ((self.current_time - self.last_time) < -15))
+                if(self.is_host && ((self.current_time - self.last_time) < -15)) //앞으로 돌리는 것 제한 -> 이전 시간을 저장하여 현재 바뀐 시간과 비교
                 {
                     console.log("hi")
                     $.ajax({
                         method: "POST",
-                        url: URL_LAST,
+                        url: URL_LAST, //유저가 동영상 시간을 되돌렸었다는 로그를 생성
                     });
-                    // $.ajax({
-                    //     method: "POST",
-                    //     url: URL_SYNC,
-                    //     data: { videoId : self.current_videoId, videoTime: self.last_time }
-                    // });
+                    $.ajax({
+                        method: "POST",
+                        url: URL_SYNC,
+                        data: { videoId : self.current_videoId, videoTime: self.last_time } //이전 시간으로 디비에 저장
+                    });
+                    self.player.seekTo(self.last_time);
+                    self.player.play(); //제한했을 때 원래의 시간으로 돌아감
                 }
-
-                // console.log("current : " + self.current_time)
-                // console.log("subtract : " + (self.current_time - self.last_time))
                 // 만약 비디오가 거의다 재생되가면 동기화하지 않음
 
 
@@ -241,7 +240,7 @@
                 var self = this;
                 self.last_time = self.player.getCurrentTime();
                 console.log("last : " + self.last_time)
-            },
+            }, //이전의 시간들을 저장
             onPlayerReady: function(event) {
                 var self = this
                 if(self.current_videoId != '') {

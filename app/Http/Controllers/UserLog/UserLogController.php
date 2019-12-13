@@ -27,7 +27,7 @@ class UserLogController extends Controller
         if($this->getUserUpdateCount($request, $room_id) > 2)
         {
             abort(503);
-        }
+        } //유저의 동영상 rewind 횟수가 2회 이상이면 제한
                 $user_id = $request->user()->id;
                 $user_log = new UserLog();
                 $user_log->user_id = $user_id;
@@ -37,7 +37,7 @@ class UserLogController extends Controller
                 $user_log->save();
 
     }
-    public static function getUserUpdateCount(Request $request, $room_id)
+    public function getUserUpdateCount(Request $request, $room_id)
     {
         $user_id = $request->user()->id;
         $videoUpdateCount = DB::table('user_logs')
