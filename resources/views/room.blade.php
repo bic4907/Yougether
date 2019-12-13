@@ -85,6 +85,7 @@
     var URL_SYNC = '{{ route('room.chat.sync', ['room_id'=> $room->id]) }}'
     var VIDEO_ADD = '{{ route('room.video.add', ['room_id'=> $room->id]) }}'
     var VIDEO_LIST = '{{ route('room.video.list', ['room_id'=> $room->id]) }}'
+    var URL_LAST = '{{ route('room.log.add', ['room_id' => $room->id]) }}'
 
     var roomApp = new Vue({
         el: '#room-container',
@@ -98,8 +99,10 @@
             is_host: '{{ $isHost ? 'true' :' false' }}',
             current_videoId: '{{ $room->current_videoId }}',
             current_time: '{{ $room->current_time }}',
+            last_time: '{{ $room->current_time }}',
 
             videoSyncTimer: null,
+            videoLastSyncTimer: null,
         },
         mounted: function() {
             var self = this
@@ -130,7 +133,10 @@
 
                         self.current_videoId = e.videoId
                         self.current_time = e.videoTime
-
+                        if(e.videoTime < 1)
+                            self.last_time = 0
+                        else
+                            self.last_time = e.videoTime
                     })
                     .listen('VideoAddEvent', function(data) {
                         $.each(data.videoList, function(i, e) {
@@ -144,9 +150,11 @@
                         if(authApp.nickname == current_host) {
                             self.is_host = true
                             self.startVideoSyncHost()
+                            self.startLastVideoSyncHost()
                         } else {
                             self.is_host = false
                             self.stopVideoSyncHost()
+                            self.stopLastVideoSyncHost()
                         }
                     })
 
@@ -154,6 +162,7 @@
 
             if(this.is_host) {
                 this.startVideoSyncHost()
+                this.startLastVideoSyncHost()
             }
 
             this.requestQueue()
@@ -178,12 +187,21 @@
             },
             startVideoSyncHost: function() {
                 var self = this
-                if(this.videoSyncTimer != null) return
+                if(this.videoSyncTimer != null) return;
                 this.videoSyncTimer = setInterval(self.sendVideoSyncInfo, 1000)
+            },
+            startLastVideoSyncHost: function() {
+                var self = this
+                if(this.videoLastSyncTimer != null) return;
+                this.videoLastSyncTimer = setInterval(self.sendLastVideoSyncInfo, 1200)
             },
             stopVideoSyncHost: function() {
                 if(this.videoSyncTimer == null) return;
                 clearInterval(this.videoSyncTimer)
+            },
+            stopLastVideoSyncHost: function() {
+                if(this.videoLastSyncTimer == null) return;
+                clearInterval(this.videoLastSyncTimer)
             },
             sendVideoSyncInfo: function() {
                 var self = this;
@@ -191,19 +209,38 @@
                 if(self.current_videoId == null || self.current_videoId == '') return;
                 if(!self.is_host) return;
 
-                if(self.is_host && self.player.getCurrentTime() - self.current_time > 5)
-                {
-                    '{{ route('room.log.add', ['room_id' => $room->id]) }}'
-                }
                 self.current_time = self.player.getCurrentTime();
+                if(self.is_host && ((self.current_time - self.last_time) < -15))
+                {
+                    console.log("hi")
+                    $.ajax({
+                        method: "POST",
+                        url: URL_LAST,
+                    });
+                    // $.ajax({
+                    //     method: "POST",
+                    //     url: URL_SYNC,
+                    //     data: { videoId : self.current_videoId, videoTime: self.last_time }
+                    // });
+                }
+
+                // console.log("current : " + self.current_time)
+                // console.log("subtract : " + (self.current_time - self.last_time))
                 // 만약 비디오가 거의다 재생되가면 동기화하지 않음
 
-                if(self.player.getDuration() - self.current_time  <= 3) return;
-                $.ajax({
-                    method: "POST",
-                    url: URL_SYNC,
-                    data: { videoId : self.current_videoId, videoTime: self.current_time }
-                });
+
+                    if(self.player.getDuration() - self.current_time  <= 3) return;
+                    $.ajax({
+                        method: "POST",
+                        url: URL_SYNC,
+                        data: { videoId : self.current_videoId, videoTime: self.current_time }
+                    });
+
+            },
+            sendLastVideoSyncInfo: function() {
+                var self = this;
+                self.last_time = self.player.getCurrentTime();
+                console.log("last : " + self.last_time)
             },
             onPlayerReady: function(event) {
                 var self = this

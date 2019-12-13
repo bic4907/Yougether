@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RoomSyncController extends Controller
 {
-
     public function updateRoomSync($room_id, Request $request) {
         // 2. 만약 요청한 유저가 호스트가 맞다면 방 정보를 갱신합니다.
 
@@ -48,8 +47,10 @@ class RoomSyncController extends Controller
         }
 
         //유저가 방장일 때 해당 방에서 비디오를 얼마나 되감기했는지 검사
+        dump($user->id, $room->id);
         if($room->current_host == $user->id)
         {
+            dump("host");
             if(UserLog::getUserUpdateCount($user->id, $room->id) > 2)
             {
                 abort(503);
