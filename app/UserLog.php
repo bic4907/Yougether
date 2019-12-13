@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class UserLog extends Model
 {
@@ -16,8 +17,10 @@ class UserLog extends Model
             ->where('user_logs.user_id', '=', $user_id)
             ->where('user_logs.room_id', '=', $room_id)
             ->where('add_video', '=', true)
+            ->get()
             ->count();
 
+        if($videoAddCount == null) return 0;
         return $videoAddCount;
     }
 
@@ -27,8 +30,10 @@ class UserLog extends Model
             ->where('user_logs.user_id', '=', $user_id)
             ->where('user_logs.room_id', '=', $room_id)
             ->where('rewind', '=', true)
+            ->get()
             ->count();
 
+        if($videoUpdateCount == null) return 0;
         return $videoUpdateCount;
     }
 }

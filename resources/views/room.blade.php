@@ -95,7 +95,7 @@
             video_queue: [],
             player: null,
 
-            is_host: {{ $isHost ? 'true' :' false' }},
+            is_host: '{{ $isHost ? 'true' :' false' }}',
             current_videoId: '{{ $room->current_videoId }}',
             current_time: '{{ $room->current_time }}',
 
@@ -182,20 +182,23 @@
                 this.videoSyncTimer = setInterval(self.sendVideoSyncInfo, 1000)
             },
             stopVideoSyncHost: function() {
-                if(this.videoSyncTimer == null) return
+                if(this.videoSyncTimer == null) return;
                 clearInterval(this.videoSyncTimer)
             },
             sendVideoSyncInfo: function() {
-                var self = this
+                var self = this;
 
                 if(self.current_videoId == null || self.current_videoId == '') return;
-                if(!self.is_host) return
+                if(!self.is_host) return;
 
-                self.current_time = self.player.getCurrentTime()
+                if(self.is_host && self.player.getCurrentTime() - self.current_time > 5)
+                {
+                    '{{ route('room.log.add', ['room_id' => $room->id]) }}'
+                }
+                self.current_time = self.player.getCurrentTime();
                 // 만약 비디오가 거의다 재생되가면 동기화하지 않음
 
                 if(self.player.getDuration() - self.current_time  <= 3) return;
-
                 $.ajax({
                     method: "POST",
                     url: URL_SYNC,

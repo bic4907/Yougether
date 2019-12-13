@@ -47,10 +47,13 @@ class RoomSyncController extends Controller
             abort(503);
         }
 
-        //유저가 해당 방에서 비디오를 얼마나 되감기했는지 검사
-        if(UserLog::getUserUpdateCount($user->id, $room->id) > 2)
+        //유저가 방장일 때 해당 방에서 비디오를 얼마나 되감기했는지 검사
+        if($room->current_host == $user->id)
         {
-            abort(503);
+            if(UserLog::getUserUpdateCount($user->id, $room->id) > 2)
+            {
+                abort(503);
+            }
         }
     } //updateRoomSyncException()
 }

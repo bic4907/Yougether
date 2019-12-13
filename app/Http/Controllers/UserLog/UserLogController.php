@@ -5,6 +5,7 @@ namespace App\Http\Controllers\UserLog;
 use App\Http\Controllers\Controller;
 use App\UserLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserLogController extends Controller
 {

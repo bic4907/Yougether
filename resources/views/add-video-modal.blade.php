@@ -111,7 +111,6 @@
                     parsedVideoId = this.search_keyword.substr(18)
                 }
 
-
                 gapi.client.setApiKey('AIzaSyCwFrzlv37L5efs-MHHdUxT-S9fAQCVfAQ');
 
                 this.search_result = []

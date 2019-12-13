@@ -18,7 +18,7 @@ class VideoController extends Controller
 {
     public function addVideo($room_id, Request $request)
     {
-        if (UserLog::getUserAddCount(Auth::user()->id, $room_id) > 2)
+        if ((UserLog::getUserAddCount(Auth::user()->id, $room_id)) > 2)
         {
             abort(503);
         }
@@ -46,4 +46,16 @@ class VideoController extends Controller
             ->get();
         return $videoList;
     } //해당 방의 Video List return
+
+    public function deleteVideo($room_id, Request $request) {
+
+        $video = Video::findOrFail($request->input('queueItemId'));
+        if($video->user_id != Auth::id()) {
+            abort(403);
+        }
+
+        $video->delete();
+
+        broadcast(new VideoAddEvent($room_id));
+    }
 }

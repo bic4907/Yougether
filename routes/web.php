@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', 'Room\Lobby@show')->name('room.list');
 
 Route::get('/user', 'User\Login@checkingSession')->name('checkingSession');
@@ -26,6 +28,10 @@ Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send'
 
 Route::get('room/{room_id}/video', 'Video\VideoController@getVideoList')->name('room.video.list');
 Route::post('room/{room_id}/video', 'Video\VideoController@addVideo')->name('room.video.add');
+Route::delete('room/{room_id}/video', 'Video\VideoController@deleteVideo')->name('room.video.del');
+Route::get('room/{room_id}/log/{user_id}', 'UserLog\UserLogController@getUserAddCount')->name('room.log.count');
+
+Route::post('room/{room_id}/', 'UserLog\UserLogController@addaddUserUpdateVideoCount')->name('room.log.add');
 
 Route::post('room/{room_id}/sync', 'Room\RoomSyncController@updateRoomSync')->name('room.chat.sync');
 
