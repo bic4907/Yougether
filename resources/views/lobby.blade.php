@@ -16,7 +16,7 @@
                 <a :href="'/room/'+ room.room_id">
                     <div class="container row">
                         <div class="col-auto">
-                            <div :style="{ backgroundImage: 'url(\'' + room.thumbnail + '\')' }"
+                            <div v-bind:id="'room-videoThumb' + room.room_id" :style="{ backgroundImage: 'url(\'' + room.thumbnail + '\')' }"
                                  class="thumb rounded"></div>
                         </div>
                         <div class="col">
@@ -86,6 +86,7 @@
                                 self.room_list.push(data)
                                 $("#room-admission" + room_id).html(data.admission);
                                 $("#room-videoTitle" + room_id).html(data.videoTitle ? data.videoTitle : '재생중인 동영상이 없습니다');
+                                $("#room-videoThumb" + room_id).css('background-image', 'url(' + data['thumbnail'] + ')');
                             },
                             error: function () {
                             }

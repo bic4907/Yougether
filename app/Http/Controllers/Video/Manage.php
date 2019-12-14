@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Video;
 
 use App\Enums\VideoStatus;
 use App\Events\VideoAddEvent;
-use App\Http\Controllers\API\VideoInfoParserController;
+use App\Http\Controllers\API\VideoInfoParser;
 use App\Http\Controllers\UserLog\UserLogController;
 use App\User;
 use App\UserLog;
@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class VideoController extends Controller
+class Manage extends Controller
 {
     public function addVideo($room_id, Request $request)
     {
@@ -32,7 +32,7 @@ class VideoController extends Controller
         UserLogController::addUserAddVideoCount(Auth::user()->id, $room_id);
 
         // 비디오 정보 캐싱
-        VideoInfoParserController::getVideoInfo($video->video);
+        VideoInfoParser::getVideoInfo($video->video);
 
         broadcast(new VideoAddEvent($room_id));
     }

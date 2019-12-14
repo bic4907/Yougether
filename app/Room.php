@@ -7,7 +7,7 @@ use App\Enums\VideoStatus;
 use App\Events\RoomInfoChangeEvent;
 use App\Events\VideoAddEvent;
 use App\Events\VideoSyncEvent;
-use App\Http\Controllers\API\RecommendedVideoController;
+use App\Http\Controllers\API\RecommendedVideo;
 use App\Models\VideoInfo;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -76,7 +76,7 @@ class Room extends Model
     function getRecommendedVideo(string $videoId) {
         $rcVideo = null;
         try {
-            $rcVideo = RecommendedVideoController::getNextVideoInfo($videoId);
+            $rcVideo = RecommendedVideo::getNextVideoInfo($videoId);
         } catch(\ErrorException $exception) {
             // 비디오 할당량이 없다면 오류 발생
             $rcVideo = VideoInfo::all()->random(1)->first();

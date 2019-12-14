@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\VideoInfo;
 
-class VideoInfoParserController extends ParserController
+class VideoInfoParser extends Parser
 {
 
     /**
@@ -23,7 +23,7 @@ class VideoInfoParserController extends ParserController
         }
 
         try {
-            $rawJson = ParserController::getJSON(
+            $rawJson = Parser::getJSON(
                 $VIDEO_INFO_URL,
                 array(
                     'id' => $videoId,

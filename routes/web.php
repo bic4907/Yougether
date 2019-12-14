@@ -24,11 +24,11 @@ Route::post('/room', 'Room\Create@makingRoom')->name('room.create');
 Route::get('room_get', 'Room\Lobby@roomInformation')->name('room.get');
 
 Route::get('room/{room_id}', 'Room\Enter@show')->name('room.enter');
-Route::post('room/{room_id}/chat', 'ChatController@send')->name('room.chat.send');
+Route::post('room/{room_id}/chat', 'ChatBroadCaster@send')->name('room.chat.send');
 
-Route::get('room/{room_id}/video', 'Video\VideoController@getVideoList')->name('room.video.list');
-Route::post('room/{room_id}/video', 'Video\VideoController@addVideo')->name('room.video.add');
-Route::delete('room/{room_id}/video', 'Video\VideoController@deleteVideo')->name('room.video.del');
+Route::get('room/{room_id}/video', 'Video\Manage@getVideoList')->name('room.video.list');
+Route::post('room/{room_id}/video', 'Video\Manage@addVideo')->name('room.video.add');
+Route::delete('room/{room_id}/video', 'Video\Manage@deleteVideo')->name('room.video.del');
 
 Route::get('room/{room_id}/log/', 'UserLog\UserLogController@getUserUpdateCount')->name('room.log.count');
 Route::post('room/{room_id}/log/add', 'UserLog\UserLogController@addUserUpdateVideoCount')->name('room.log.add');

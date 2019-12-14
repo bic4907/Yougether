@@ -6,12 +6,12 @@ use App\VideoInfo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class RecommendedVideoController extends ParserController
+class RecommendedVideo extends Parser
 {
     static private $VIDEO_INFO_URL = 'https://www.googleapis.com/youtube/v3/search';
 
     static function getNextVideoId(string $videoId) {
-        $rawJson = ParserController::getJSON(
+        $rawJson = Parser::getJSON(
             self::$VIDEO_INFO_URL,
             array(
                 'relatedToVideoId'=>$videoId,
@@ -26,7 +26,7 @@ class RecommendedVideoController extends ParserController
 
     static function getNextVideoInfo(string $videoId) {
         $nextVideoId = self::getNextVideoId($videoId);
-        return (new VideoInfoParserController)->getVideoInfo($nextVideoId);
+        return (new VideoInfoParser)->getVideoInfo($nextVideoId);
     }
 
 }

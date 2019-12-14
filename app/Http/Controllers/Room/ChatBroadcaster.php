@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ChatController extends Controller
+class ChatBroadcaster extends Controller
 {
     function send($room_id, Request $request)
     {
@@ -17,7 +17,7 @@ class ChatController extends Controller
         $user = Auth::user();
         if($user == null) abort(403);
 
-        $chat = new Chat();
+        $chat = new ChatBroadcaster();
         $chat->nickname = $user->nickname;
         $chat->text = $text;
         $chat->room_id = intval($room_id);

@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Curl\Curl;
 
-class ParserController extends Controller
+class Parser extends Controller
 {
-    static $YOUTUBE_API_KEY = "AIzaSyCwFrzlv37L5efs-MHHdUxT-S9fAQCVfAQ";
+    static $YOUTUBE_API_KEY = 'AIzaSyCxZgARQglOdYfrKAGEkhE9JaFvSYDRPsw';
 
     static function getJSON(string $url, array $params) {
 

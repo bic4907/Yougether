@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Enums\VideoStatus;
-use App\Http\Controllers\API\VideoInfoParserController;
+use App\Http\Controllers\API\VideoInfoParser;
 use App\Video;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
