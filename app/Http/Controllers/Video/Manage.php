@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Video;
 use App\Enums\VideoStatus;
 use App\Events\VideoAddEvent;
 use App\Http\Controllers\API\VideoInfoParser;
-use App\Http\Controllers\UserLog\UserLogController;
+use App\Http\Controllers\UserLog\AddUserLog;
 use App\User;
 use App\UserLog;
 use App\Video;
@@ -29,7 +29,7 @@ class Manage extends Controller
         $video->room_id = $room_id;
         $video->save();
         //비디오 추가 시 유저의 비디오 추가 로그 생성
-        UserLogController::addUserAddVideoCount(Auth::user()->id, $room_id);
+        AddUserLog::addUserAddVideoCount(Auth::user()->id, $room_id);
 
         // 비디오 정보 캐싱
         VideoInfoParser::getVideoInfo($video->video);

@@ -13,7 +13,7 @@ use App\Room;
 use App\Events\VideoSyncEvent;
 use Illuminate\Support\Facades\Auth;
 
-class RoomSyncController extends Controller
+class RoomSync extends Controller
 {
     public function updateRoomSync($room_id, Request $request) {
         // 2. 만약 요청한 유저가 호스트가 맞다면 방 정보를 갱신합니다.

@@ -10,7 +10,7 @@ use App\UserLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class UserLogController extends Controller
+class AddUserLog extends Controller
 {
     public static function addUserAddVideoCount($user_id, $room_id)
     {
